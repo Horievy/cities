@@ -1,5 +1,7 @@
-function App(): JSX.Element {
-  return <p>Hello, world!</p>;
+import Main from '../../pages/main/main';
+
+function App({placesList}: any): JSX.Element {
+  return (<Main placesList={placesList}/>);
 }
 
 export default App;
