@@ -1,6 +1,11 @@
 import Main from '../../pages/main/main';
+import {PlaceListItemType} from '../../types/mainTypes';
 
-function App({placesList}: any): JSX.Element {
+interface AppProps {
+  placesList: PlaceListItemType[],
+}
+
+function App({placesList}: AppProps): JSX.Element {
   return (<Main placesList={placesList}/>);
 }
 

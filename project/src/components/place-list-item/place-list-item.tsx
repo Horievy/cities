@@ -1,5 +1,6 @@
-// eslint-disable-next-line react/prop-types
-export default function PlaceListItem({imgSrc, name, isBookmarked, price, priceText, type, mark, rating}: any) {
+import {PlaceListItemType} from '../../types/mainTypes';
+
+export default function PlaceListItem({imgSrc, name, isBookmarked, price, priceText, type, mark, rating}: PlaceListItemType) {
   const MAX_RATING = 5;
 
   let markedBlock = null;

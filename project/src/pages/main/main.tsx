@@ -1,7 +1,12 @@
 import React from 'react';
 import PlaceListItem from '../../components/place-list-item/place-list-item';
+import {PlaceListItemType} from '../../types/mainTypes';
 
-export default function Main({placesList}:any): JSX.Element {
+interface MainProps {
+  placesList: PlaceListItemType[],
+}
+
+export default function Main({placesList}:MainProps): JSX.Element {
   return (
     <React.Fragment>
       <div style={{display: 'none'}}>
@@ -115,7 +120,7 @@ export default function Main({placesList}:any): JSX.Element {
                 </form>
                 <div className='cities__places-list places__list tabs__content'>
                   {
-                    placesList.map((placeList:any) => <PlaceListItem key={placeList.id} {...placeList}/>)
+                    placesList.map((placeList:PlaceListItemType) => <PlaceListItem key={placeList.id} {...placeList}/>)
                   }
                 </div>
               </section>

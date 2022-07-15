@@ -3,18 +3,6 @@ import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
 import {PlaceListItemType} from './types/mainTypes';
 
-// type PlaceListItem = {
-//   mark?: string,
-//   imgSrc: string,
-//   price: string,
-//   priceText: string,
-//   name: string,
-//   type: string,
-//   isBookmarked: boolean
-//   id: number,
-//   rating: number
-// }
-
 const placesList:PlaceListItemType[] = [
   {
     mark: 'Premium',
