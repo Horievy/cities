@@ -1,6 +1,6 @@
 import {AppRoute, AuthorizationStatus} from '../../const';
 import {Route, BrowserRouter, Routes} from 'react-router-dom';
-import {PlaceListItemType} from '../../types/mainTypes';
+import {Offer} from '../../types/mainTypes';
 
 import Main from '../../pages/main/main';
 import Login from '../../pages/login/login';
@@ -10,10 +10,12 @@ import Property from '../../pages/property/property';
 import PrivateRoute from '../privateRoute/privateRoute';
 
 interface AppProps {
-  placesList: PlaceListItemType[],
+  placesList: Offer[],
+  offers: Offer[],
+  favoriteOffers: Offer[],
 }
 
-function App({placesList}: AppProps): JSX.Element {
+function App({placesList, offers, favoriteOffers}: AppProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
@@ -28,14 +30,14 @@ function App({placesList}: AppProps): JSX.Element {
         <Route
           path={AppRoute.Favorites}
           element={
-            <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
-              <Favorites/>
+            <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+              <Favorites offers={favoriteOffers}/>
             </PrivateRoute>
           }
         />
         <Route
           path={AppRoute.Room}
-          element={<Property/>}
+          element={<Property offers={offers}/>}
         />
         <Route
           path="*"

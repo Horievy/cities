@@ -1,46 +1,56 @@
-import {PlaceListItemType} from '../../types/mainTypes';
+import { useState } from 'react';
+import {Offer} from '../../types/mainTypes';
+import {Link} from 'react-router-dom';
+import Rating from '../rating/rating';
+import { AppRoute } from '../../const';
 
-export default function PlaceListItem({imgSrc, name, isBookmarked, price, priceText, type, mark, rating}: PlaceListItemType) {
-  const MAX_RATING = 5;
+interface PlaceListItemProps {
+  place: Offer,
+  classPrefix: string
+}
 
-  let markedBlock = null;
-  const ratingInPercents = Math.round(rating) / MAX_RATING * 100;
+export default function PlaceListItem({place, classPrefix}:PlaceListItemProps) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [item, setHoveredItem] = useState<Offer>(place);
 
-  if (mark) {
-    markedBlock = (
-      <div className='place-card__mark'>
-        <span>{mark}</span>
-      </div>);
-  }
+  const routeLink:string = AppRoute.Room.replace(':id', place.id.toString());
+
+  const {isPremium, price, rating, title, type, previewImage, isFavorite} = place ;
+
+
   return (
-    <article className='cities__card place-card'>
-      {markedBlock}
-      <div className='cities__image-wrapper place-card__image-wrapper'>
-        <a href='#tbd'>
-          <img className='place-card__image' src={imgSrc} width='260' height='200' alt='Place' />
-        </a>
+    <article className={`${classPrefix}__card place-card`}
+      onMouseEnter={() => setHoveredItem(place)}
+    >
+      {
+        isPremium ?
+          <div className='place-card__mark'>
+            <span>{isPremium}</span>
+          </div> : null
+      }
+      <div className={`${classPrefix}__image-wrapper place-card__image-wrapper`}>
+        <Link className="header__logo-link" to={routeLink}>
+          <img className='place-card__image' src={previewImage} width='260' height='200' alt='Place' />
+        </Link>
       </div>
       <div className='place-card__info'>
         <div className='place-card__price-wrapper'>
           <div className='place-card__price'>
             <b className='place-card__price-value'>&euro;{price}</b>
-            <span className='place-card__price-text'>&#47;&nbsp;{priceText}</span>
+            <span className='place-card__price-text'>&#47;&nbsp;night</span>
           </div>
-          <button className={`${isBookmarked ? 'place-card__bookmark-button--active' : ''} button place-card__bookmark-button`} type='button'>
+          <button className={`${isFavorite ? 'place-card__bookmark-button--active' : ''} button place-card__bookmark-button`} type='button'>
             <svg className='place-card__bookmark-icon' width='18' height='19'>
               <use xlinkHref='#icon-bookmark'></use>
             </svg>
-            <span className='visually-hidden'>{isBookmarked ? 'To bookmarks' : 'bebe'}</span>
+            <span className='visually-hidden'>{isFavorite ? 'To bookmarks' : 'bebe'}</span>
           </button>
         </div>
-        <div className='place-card__rating rating'>
-          <div className='place-card__stars rating__stars'>
-            <span style={{width: `${ratingInPercents}%`}}></span>
-            <span className='visually-hidden'>Rating</span>
-          </div>
-        </div>
+        <Rating rating={rating}
+          classPrefix='place-card'
+        />
         <h2 className='place-card__name'>
-          <a href='#tbd'>{name}</a>
+          <a href='#tbd'>{title}</a>
         </h2>
         <p className='place-card__type'>{type}</p>
       </div>
