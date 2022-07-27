@@ -29,7 +29,7 @@ export default function PlaceListItem({place, classPrefix}:PlaceListItemProps) {
           </div> : null
       }
       <div className={`${classPrefix}__image-wrapper place-card__image-wrapper`}>
-        <Link className="header__logo-link" to={routeLink}>
+        <Link to={routeLink}>
           <img className='place-card__image' src={previewImage} width='260' height='200' alt='Place' />
         </Link>
       </div>

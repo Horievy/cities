@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Header from '../../components/header/header';
 import PlaceList from '../../components/place-list/place-list';
 import Rating from '../../components/rating/rating';
-import ReviewsForm from '../../components/reviews-form/reviews-form';
+import Reviews from '../../components/reviews/reviews';
+import { reviews } from '../../mocks/reviews';
 import { Offer } from '../../types/mainTypes';
 
 interface OffersProps {
@@ -12,12 +13,16 @@ interface OffersProps {
 
 export default function Property({offers}: OffersProps): JSX.Element {
   const {id} = useParams();
-  const currentOffer: Offer = getCurrentOffer(id || '', offers);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const {images, bedrooms, city, description, goods, host:{isPro, avatarUrl, name}, isPremium, maxAdults, price, rating, title, type} = currentOffer ;
 
-  // eslint-disable-next-line no-console
-  console.log(currentOffer);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [id]);
+
+  const currentOffer: Offer = getCurrentOffer(id || '', offers);
+  const {images, bedrooms, description, goods, host:{isPro, avatarUrl, name}, isPremium, maxAdults, price, rating, title, type} = currentOffer;
+  const imagesToRender = images.slice(0, 5);
+  const reccomendedOffers: Offer[] = offers.filter((item) => item.id !== (id && +id));
+
   function getCurrentOffer(pageId: string, allOffers:Offer[]): Offer {
     return allOffers.find((el:Offer) => el.id === +pageId) || allOffers[0];
   }
@@ -34,12 +39,10 @@ export default function Property({offers}: OffersProps): JSX.Element {
           <section className="property">
             <div className="property__gallery-container container">
               <div className="property__gallery">
-                {images.map((image, index) => (
-                  index > 5 ?
-                    null :
-                    <div key={image} className="property__image-wrapper">
-                      <img className="property__image" src={image} alt={type} />
-                    </div>
+                {imagesToRender.map((image) => (
+                  <div key={image} className="property__image-wrapper">
+                    <img className="property__image" src={image} alt={type} />
+                  </div>
                 ))}
               </div>
             </div>
@@ -102,10 +105,7 @@ export default function Property({offers}: OffersProps): JSX.Element {
                     <span className="property__user-name">
                       {name}
                     </span>
-                    {isPro ?
-                      <span className="property__user-status">
-                      Pro
-                      </span> : null}
+                    {isPro && <span className="property__user-status">Pro</span>}
                   </div>
                   <div className="property__description">
                     <p className="property__text">
@@ -113,34 +113,7 @@ export default function Property({offers}: OffersProps): JSX.Element {
                     </p>
                   </div>
                 </div>
-                <section className="property__reviews reviews">
-                  <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">1</span></h2>
-                  <ul className="reviews__list">
-                    <li className="reviews__item">
-                      <div className="reviews__user user">
-                        <div className="reviews__avatar-wrapper user__avatar-wrapper">
-                          <img className="reviews__avatar user__avatar" src="img/avatar-max.jpg" width="54" height="54" alt="Reviews" />
-                        </div>
-                        <span className="reviews__user-name">
-                          Max
-                        </span>
-                      </div>
-                      <div className="reviews__info">
-                        <div className="reviews__rating rating">
-                          <div className="reviews__stars rating__stars">
-                            <span style={{width: '80%'}}></span>
-                            <span className="visually-hidden">Rating</span>
-                          </div>
-                        </div>
-                        <p className="reviews__text">
-                          A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.
-                        </p>
-                        <time className="reviews__time" dateTime="2019-04-24">April 2019</time>
-                      </div>
-                    </li>
-                  </ul>
-                  <ReviewsForm />
-                </section>
+                <Reviews reviews={reviews}/>
               </div>
             </div>
             <section className="property__map map"></section>
@@ -148,7 +121,7 @@ export default function Property({offers}: OffersProps): JSX.Element {
           <div className="container">
             <section className="near-places places">
               <h2 className="near-places__title">Other places in the neighbourhood</h2>
-              <PlaceList placesList={offers} classPrefix='near-places'/>
+              <PlaceList placesList={reccomendedOffers} classPrefix='near-places'/>
             </section>
           </div>
         </main>
