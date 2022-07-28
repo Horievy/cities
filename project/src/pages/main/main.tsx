@@ -1,10 +1,10 @@
 import React from 'react';
 import Header from '../../components/header/header';
-import PlaceListItem from '../../components/place-list-item/place-list-item';
-import {PlaceListItemType} from '../../types/mainTypes';
+import PlaceList from '../../components/place-list/place-list';
+import {Offer} from '../../types/mainTypes';
 
 interface MainProps {
-  placesList: PlaceListItemType[],
+  placesList: Offer[],
 }
 
 export default function Main({placesList}:MainProps): JSX.Element {
@@ -91,11 +91,7 @@ export default function Main({placesList}:MainProps): JSX.Element {
                     <li className='places__option' tabIndex={0}>Top rated first</li>
                   </ul>
                 </form>
-                <div className='cities__places-list places__list tabs__content'>
-                  {
-                    placesList.map((placeList:PlaceListItemType) => <PlaceListItem key={placeList.id} {...placeList}/>)
-                  }
-                </div>
+                <PlaceList placesList={placesList} classPrefix='cities'/>
               </section>
               <div className='cities__right-section'>
                 <section className='cities__map map'></section>
@@ -107,5 +103,3 @@ export default function Main({placesList}:MainProps): JSX.Element {
     </React.Fragment>
   );
 }
-
-
