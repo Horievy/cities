@@ -1,13 +1,18 @@
 import React from 'react';
 import Header from '../../components/header/header';
 import PlaceList from '../../components/place-list/place-list';
+import Map from '../../components/map/map';
 import {Offer} from '../../types/mainTypes';
+import {City, Points} from '../../types/mainTypes';
+
 
 interface MainProps {
   placesList: Offer[],
+  points: Points,
+  city: City
 }
 
-export default function Main({placesList}:MainProps): JSX.Element {
+export default function Main({placesList, points, city}:MainProps): JSX.Element {
   return (
     <React.Fragment>
       <div style={{display: 'none'}}>
@@ -94,7 +99,9 @@ export default function Main({placesList}:MainProps): JSX.Element {
                 <PlaceList placesList={placesList} classPrefix='cities'/>
               </section>
               <div className='cities__right-section'>
-                <section className='cities__map map'></section>
+                <section className='cities__map map'>
+                  <Map city={city} points={points} selectedPoint={points[0]}/>
+                </section>
               </div>
             </div>
           </div>
