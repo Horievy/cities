@@ -1,32 +1,32 @@
-import { useState } from 'react';
-import {Offer} from '../../types/mainTypes';
+import {Offer, SearchFunc} from '../../types/mainTypes';
 import {Link} from 'react-router-dom';
 import Rating from '../rating/rating';
 import { AppRoute } from '../../const';
 
 interface PlaceListItemProps {
   place: Offer,
-  classPrefix: string
+  classPrefix: string,
+  getSelectedOffer?: SearchFunc
 }
 
-export default function PlaceListItem({place, classPrefix}:PlaceListItemProps) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [item, setHoveredItem] = useState<Offer>(place);
-
+export default function PlaceListItem({place, classPrefix, getSelectedOffer}:PlaceListItemProps) {
   const routeLink:string = AppRoute.Room.replace(':id', place.id.toString());
 
   const {isPremium, price, rating, title, type, previewImage, isFavorite} = place ;
 
+  function onItemHover() {
+    getSelectedOffer && getSelectedOffer(place);
+  }
 
   return (
     <article className={`${classPrefix}__card place-card`}
-      onMouseEnter={() => setHoveredItem(place)}
+      onMouseEnter={onItemHover}
     >
       {
-        isPremium ?
+        isPremium &&
           <div className='place-card__mark'>
-            <span>{isPremium}</span>
-          </div> : null
+            <span>Premium</span>
+          </div>
       }
       <div className={`${classPrefix}__image-wrapper place-card__image-wrapper`}>
         <Link to={routeLink}>

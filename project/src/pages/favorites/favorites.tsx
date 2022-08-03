@@ -8,7 +8,6 @@ interface SortedFav {
   items: Offer[]
 }
 
-
 export default function Favorites({offers}: {offers: Offer[]}): JSX.Element {
   const sortedFavs:SortedFav[] = sortOffers(offers);
 

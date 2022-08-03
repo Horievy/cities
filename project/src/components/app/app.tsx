@@ -1,6 +1,6 @@
 import {AppRoute, AuthorizationStatus} from '../../const';
 import {Route, BrowserRouter, Routes} from 'react-router-dom';
-import {City, Offer, Points} from '../../types/mainTypes';
+import {Offer} from '../../types/mainTypes';
 
 import Main from '../../pages/main/main';
 import Login from '../../pages/login/login';
@@ -10,25 +10,18 @@ import Property from '../../pages/property/property';
 import PrivateRoute from '../privateRoute/privateRoute';
 
 interface AppProps {
-  placesList: Offer[],
   offers: Offer[],
   favoriteOffers: Offer[],
-  points: Points,
-  city: City
 }
 
-function App({placesList, offers, favoriteOffers, points, city}: AppProps): JSX.Element {
+function App({offers, favoriteOffers}: AppProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
         <Route
           path={AppRoute.Main}
           element={
-            <Main
-              placesList={placesList}
-              points={points}
-              city={city}
-            />
+            <Main/>
           }
         />
         <Route
