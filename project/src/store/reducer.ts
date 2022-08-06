@@ -1,5 +1,5 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {changeCity, getPlaces} from './action';
+import {changeCity, setPlaces} from './action';
 import { offers } from '../mocks/offers';
 import { CITIES } from '../const';
 
@@ -15,7 +15,7 @@ const reducer = createReducer(initialState, (builder) => {
 
       return { ...state, city};
     })
-    .addCase(getPlaces, (state, action) => {
+    .addCase(setPlaces, (state, action) => {
       const {placesList} = action.payload;
 
       return { ...state, placesList};

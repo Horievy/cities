@@ -50,7 +50,7 @@ function Map(props: MapProps): JSX.Element {
     }
   }, [map, points, selectedPoint]);
 
-  return <div style={{height: '500px'}} ref={mapRef}></div>;
+  return <div style={{height: '100%', width: '100%'}} ref={mapRef}></div>;
 }
 
 export default Map;

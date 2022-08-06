@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { CITIES } from '../../const';
 import { useAppDispatch } from '../../hooks/reduxHooks';
 import { changeCity } from '../../store/action';
@@ -20,9 +21,9 @@ export default function CityTab({isActive, cityName}: CityTabProps) {
 
   return (
     <li onClick={clickHandler} className='locations__item'>
-      <a className={`locations__item-link tabs__item ${isActive ? 'tabs__item--active' : ''}`} href='#tbd'>
+      <Link to={`#${cityName.toLowerCase()}`} className={`locations__item-link tabs__item ${isActive ? 'tabs__item--active' : ''}`}>
         <span>{cityName}</span>
-      </a>
+      </Link>
     </li>
   );
 }
