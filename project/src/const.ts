@@ -1,4 +1,4 @@
-import { City } from './types/mainTypes';
+import { City, SortType } from './types/mainTypes';
 
 export enum AppRoute {
   Main = '/',
@@ -55,7 +55,7 @@ export const CITIES: City[] = [
 export const URL_MARKER_DEFAULT = 'img/pin.svg';
 export const URL_MARKER_CURRENT = 'img/pin-active.svg';
 
-export const SORT_FILTERS: string[] = [
+export const SORT_OPTIONS: SortType[] = [
   'Price: low to high',
   'Price: high to low',
   'Top rated first',

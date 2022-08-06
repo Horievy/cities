@@ -65,6 +65,10 @@ export interface SearchFunc {
   (place: Offer): void;
 }
 
-export interface SortOffersFunc {
-  (sortType: string): void;
+export type InitialState = {
+  city: City,
+  placesList: Offer[],
+  sortType: SortType
 }
+
+export type SortType = 'Popular' | 'Price: low to high'|'Price: high to low'|'Top rated first';

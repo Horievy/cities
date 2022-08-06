@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useState } from 'react';
 import Header from '../../components/header/header';
 import PlaceList from '../../components/place-list/place-list';
 import Map from '../../components/map/map';
@@ -6,13 +6,13 @@ import {Offer} from '../../types/mainTypes';
 import {useAppSelector} from '../../hooks/reduxHooks';
 import CitiesTabs from '../../components/cities-tabs/cities-tabs';
 import OffersSort from '../../components/offers-sort/offers-sort';
-
-const DEFAULT_FILTER = 'Popular';
+import { getFilteredOffers, getSortedOffers } from '../../store/selectors';
 
 export default function Main(): JSX.Element {
-  const {placesList, city} = useAppSelector((state) => state);
+  const {city} = useAppSelector((state) => state);
+  const cityOffers: Offer[] = useAppSelector(getFilteredOffers);
+  const sortedOffers: Offer[] = useAppSelector(getSortedOffers);
 
-  const cityOffers: Offer[] = placesList.filter((place) => place.city.name === city.title);
   const points = cityOffers.map((offer) => {
     const {title, location: {latitude, longitude}} = offer;
 
@@ -23,34 +23,6 @@ export default function Main(): JSX.Element {
     };
   });
   const [selectedOffer, setSelectedOffer] = useState<Offer>(cityOffers[0]);
-  const [sortedOffers, setSortOffers] = useState<Offer[]>(cityOffers);
-  const [activeFilter, setActiveFilter] = useState(DEFAULT_FILTER);
-
-  useEffect(() => {
-    setSortOffers(cityOffers);
-    setActiveFilter(DEFAULT_FILTER);
-  }, [city]);
-
-  function sortOffers(sortType?: string): void {
-    switch (sortType) {
-      case 'Popular':
-        setSortOffers(cityOffers);
-        break;
-      case 'Price: low to high':
-        setSortOffers(cityOffers.sort((a, b) => a.price - b.price));
-        break;
-      case 'Price: high to low':
-        setSortOffers(cityOffers.sort((a, b) => b.price - a.price));
-        break;
-      case 'Top rated first':
-        setSortOffers(cityOffers.sort((a, b) => b.rating - a.rating));
-        break;
-      default:
-        setSortOffers(cityOffers);
-    }
-
-    setActiveFilter(sortType || DEFAULT_FILTER);
-  }
 
   function getSelectedOffer(place: Offer): void {
     setSelectedOffer(place);
@@ -82,13 +54,13 @@ export default function Main(): JSX.Element {
         <Header />
         <main className="page__main page__main--index">
           <h1 className='visually-hidden'>Cities</h1>
-          <CitiesTabs activeCity={city.title}/>
+          <CitiesTabs/>
           <div className='cities'>
             <div className='cities__places-container container'>
               <section className='cities__places places'>
                 <h2 className='visually-hidden'>Places</h2>
                 <b className='places__found'>{cityOffers.length} place(s) to stay in {city.title}</b>
-                <OffersSort sortOffers={sortOffers} filter={activeFilter} />
+                <OffersSort/>
                 <PlaceList placesList={sortedOffers} getSelectedOffer={getSelectedOffer} classPrefix='cities'/>
               </section>
               <div className='cities__right-section'>

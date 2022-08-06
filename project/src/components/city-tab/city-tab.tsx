@@ -1,20 +1,21 @@
 import { Link } from 'react-router-dom';
 import { CITIES } from '../../const';
-import { useAppDispatch } from '../../hooks/reduxHooks';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { changeCity } from '../../store/action';
 import { City } from '../../types/mainTypes';
 
-
 interface CityTabProps {
-  isActive?: boolean,
   cityName: string
 }
 
-export default function CityTab({isActive, cityName}: CityTabProps) {
+export default function CityTab({cityName}: CityTabProps) {
   const dispatch = useAppDispatch();
+  const {city} = useAppSelector((state) => state);
+
+  const isActive = city.title === cityName;
 
   function clickHandler() {
-    const activeCity: City = CITIES.find((city) => city.title === cityName) || CITIES[0];
+    const activeCity: City = CITIES.find((item) => item.title === cityName) || CITIES[0];
 
     dispatch(changeCity({city: activeCity}));
   }

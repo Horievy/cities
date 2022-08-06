@@ -1,40 +1,40 @@
 import { useState } from 'react';
-import { SORT_FILTERS } from '../../const';
-import { SortOffersFunc } from '../../types/mainTypes';
+import { SORT_OPTIONS } from '../../const';
+import { changeSortType } from '../../store/action';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
+import { SortType } from '../../types/mainTypes';
 
-interface OffersSortProps {
-  sortOffers: SortOffersFunc,
-  filter: string
-}
+export default function OffersSort() {
+  const {sortType} = useAppSelector((state) => state);
+  const dispatch = useAppDispatch();
 
-export default function OffersSort({sortOffers, filter}: OffersSortProps) {
   const [filterOpenstate, setFilterState] = useState(false);
 
   function handleOpenState() {
     setFilterState(!filterOpenstate);
   }
 
-  function onFilterSelection(filterOption: string) {
-    sortOffers(filterOption);
+  function onFilterSelection(sortOption: SortType) {
+    dispatch(changeSortType({sortType: sortOption}));
   }
 
   return (
     <form onClick={handleOpenState} className='places__sorting' action='#' method='get'>
       <span className='places__sorting-caption'>Sort by</span>
       <span className='places__sorting-type' tabIndex={0}>
-        {filter}
+        {sortType}
         <svg className='places__sorting-arrow' width='7' height='4'>
           <use xlinkHref='#icon-arrow-select'></use>
         </svg>
       </span>
       <ul className={`places__options places__options--custom ${filterOpenstate ? 'places__options--opened' : ''}`}>
-        {SORT_FILTERS.map((filterOption) => (
-          <li key={filterOption}
+        {SORT_OPTIONS.map((sortOption: SortType) => (
+          <li key={sortOption}
             className='places__option'
             tabIndex={0}
-            onClick={() => onFilterSelection(filterOption)}
+            onClick={() => onFilterSelection(sortOption)}
           >
-            {filterOption}
+            {sortOption}
           </li>))}
       </ul>
     </form>

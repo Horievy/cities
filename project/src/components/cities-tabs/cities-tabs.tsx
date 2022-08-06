@@ -1,11 +1,8 @@
 import { CITIES } from '../../const';
 import CityTab from '../city-tab/city-tab';
 
-interface CitiesTabsProps {
-  activeCity: string,
-}
 
-export default function CitiesTabs({activeCity}: CitiesTabsProps) {
+export default function CitiesTabs() {
   return (
     <div className='tabs'>
       <section className='locations container'>
@@ -15,7 +12,6 @@ export default function CitiesTabs({activeCity}: CitiesTabsProps) {
               <CityTab
                 key={city.title}
                 cityName={city.title}
-                isActive={city.title === activeCity}
               />
             ))
           }
