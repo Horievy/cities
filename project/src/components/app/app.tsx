@@ -8,13 +8,20 @@ import Favorites from '../../pages/favorites/favorites';
 import PageNotFound from '../../pages/pageNotFound/pageNotFound';
 import Property from '../../pages/property/property';
 import PrivateRoute from '../privateRoute/privateRoute';
+import { useAppSelector } from '../../hooks/reduxHooks';
+import Loader from '../loader/loader';
 
 interface AppProps {
-  offers: Offer[],
   favoriteOffers: Offer[],
 }
 
-function App({offers, favoriteOffers}: AppProps): JSX.Element {
+function App({favoriteOffers}: AppProps): JSX.Element {
+  const {isDataLoading} = useAppSelector((state) => state);
+
+  if (isDataLoading) {
+    return <Loader />;
+  }
+
   return (
     <BrowserRouter>
       <Routes>
@@ -38,7 +45,7 @@ function App({offers, favoriteOffers}: AppProps): JSX.Element {
         />
         <Route
           path={AppRoute.Room}
-          element={<Property offers={offers}/>}
+          element={<Property/>}
         />
         <Route
           path="*"

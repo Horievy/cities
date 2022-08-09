@@ -4,24 +4,23 @@ import Header from '../../components/header/header';
 import PlaceList from '../../components/place-list/place-list';
 import Rating from '../../components/rating/rating';
 import Reviews from '../../components/reviews/reviews';
+import { useAppSelector } from '../../hooks/reduxHooks';
 import { reviews } from '../../mocks/reviews';
 import { Offer } from '../../types/mainTypes';
 
-interface OffersProps {
-  offers: Offer[],
-}
 
-export default function Property({offers}: OffersProps): JSX.Element {
+export default function Property(): JSX.Element {
+  const {placesList} = useAppSelector((state) => state);
   const {id} = useParams();
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [id]);
 
-  const currentOffer: Offer = getCurrentOffer(id || '', offers);
+  const currentOffer: Offer = getCurrentOffer(id || '', placesList);
   const {images, bedrooms, description, goods, host:{isPro, avatarUrl, name}, isPremium, maxAdults, price, rating, title, type} = currentOffer;
   const imagesToRender = images.slice(0, 5);
-  const reccomendedOffers: Offer[] = offers.filter((item) => item.id !== (id && +id));
+  const reccomendedOffers: Offer[] = placesList.filter((item) => item.id !== (id && +id)).slice(0, 3);
 
   function getCurrentOffer(pageId: string, allOffers:Offer[]): Offer {
     return allOffers.find((el:Offer) => el.id === +pageId) || allOffers[0];

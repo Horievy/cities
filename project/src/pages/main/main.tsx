@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, {useState } from 'react';
 import Header from '../../components/header/header';
 import PlaceList from '../../components/place-list/place-list';
