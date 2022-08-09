@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Header from '../../components/header/header';
 import PlaceListItem from '../../components/place-list-item/place-list-item';
 import {Offer} from '../../types/mainTypes';
@@ -7,7 +8,6 @@ interface SortedFav {
   cityName: string,
   items: Offer[]
 }
-
 
 export default function Favorites({offers}: {offers: Offer[]}): JSX.Element {
   const sortedFavs:SortedFav[] = sortOffers(offers);
@@ -44,9 +44,9 @@ export default function Favorites({offers}: {offers: Offer[]}): JSX.Element {
                     <li key={cityFavs.cityName} className="favorites__locations-items">
                       <div className="favorites__locations locations locations--current">
                         <div className="locations__item">
-                          <a className="locations__item-link" href="#tbd">
+                          <Link to='/' className="locations__item-link">
                             <span>{cityFavs.cityName}</span>
-                          </a>
+                          </Link>
                         </div>
                       </div>
                       <div className="favorites__places">
@@ -64,9 +64,9 @@ export default function Favorites({offers}: {offers: Offer[]}): JSX.Element {
           </div>
         </main>
         <footer className="footer container">
-          <a className="footer__logo-link" href="main.html">
+          <Link to='/' className="footer__logo-link">
             <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33" />
-          </a>
+          </Link>
         </footer>
       </div>
     </React.Fragment>

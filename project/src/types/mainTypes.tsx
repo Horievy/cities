@@ -48,15 +48,27 @@ export type Review = {
 
 export type City = {
   title: string;
-  lat: number;
-  lng: number;
+  latitude: number;
+  longitude: number;
   zoom: number;
 };
 
 export type Point = {
   title: string;
-  lat: number;
-  lng: number;
+  latitude: number;
+  longitude: number;
 };
 
 export type Points = Point[];
+
+export interface SearchFunc {
+  (place: Offer): void;
+}
+
+export type InitialState = {
+  city: City,
+  placesList: Offer[],
+  sortType: SortType
+}
+
+export type SortType = 'Popular' | 'Price: low to high'|'Price: high to low'|'Top rated first';

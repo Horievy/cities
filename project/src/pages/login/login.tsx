@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Header from '../../components/header/header';
 
 export default function Login(): JSX.Element {
@@ -29,9 +30,9 @@ export default function Login(): JSX.Element {
             </section>
             <section className="locations locations--login locations--current">
               <div className="locations__item">
-                <a className="locations__item-link" href="#tbd">
+                <Link to='/' className="locations__item-link">
                   <span>Amsterdam</span>
-                </a>
+                </Link>
               </div>
             </section>
           </div>
