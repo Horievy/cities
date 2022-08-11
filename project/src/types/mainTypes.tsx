@@ -68,7 +68,8 @@ export interface SearchFunc {
 export type InitialState = {
   city: City,
   placesList: Offer[],
-  sortType: SortType
+  sortType: SortType,
+  isDataLoading: boolean
 }
 
 export type SortType = 'Popular' | 'Price: low to high'|'Price: high to low'|'Top rated first';

@@ -61,3 +61,9 @@ export const SORT_OPTIONS: SortType[] = [
   'Top rated first',
   'Popular'
 ];
+
+export enum APIRoute {
+  Hotels = '/hotels',
+  Login = '/login',
+  Logout = '/logout',
+}
