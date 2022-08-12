@@ -1,3 +1,5 @@
+import { AuthorizationStatus } from '../const';
+
 export type Offer = {
   bedrooms: number
   city: {
@@ -69,7 +71,20 @@ export type InitialState = {
   city: City,
   placesList: Offer[],
   sortType: SortType,
-  isDataLoading: boolean
+  isDataLoading: boolean,
+  authorizationStatus: AuthorizationStatus
 }
 
 export type SortType = 'Popular' | 'Price: low to high'|'Price: high to low'|'Top rated first';
+
+
+export type AuthData = {
+  login: string;
+  password: string;
+}
+
+export type UserData = {
+  id: number;
+  email: string;
+  token: string;
+}

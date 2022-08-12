@@ -1,4 +1,4 @@
-import {AppRoute, AuthorizationStatus} from '../../const';
+import {AppRoute} from '../../const';
 import {Route, BrowserRouter, Routes} from 'react-router-dom';
 import {Offer} from '../../types/mainTypes';
 
@@ -38,7 +38,7 @@ function App({favoriteOffers}: AppProps): JSX.Element {
         <Route
           path={AppRoute.Favorites}
           element={
-            <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+            <PrivateRoute>
               <Favorites offers={favoriteOffers}/>
             </PrivateRoute>
           }

@@ -1,6 +1,6 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {changeCity, changeSortType, setDataLoadingStatus, setPlaces} from './action';
-import { CITIES } from '../const';
+import {changeCity, changeSortType, setDataLoadingStatus, setPlaces, requireAuthorization} from './action';
+import { AuthorizationStatus, CITIES } from '../const';
 import { InitialState } from '../types/mainTypes';
 
 export const initialState: InitialState = {
@@ -8,6 +8,7 @@ export const initialState: InitialState = {
   placesList: [],
   sortType: 'Popular',
   isDataLoading: false,
+  authorizationStatus: AuthorizationStatus.Auth
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -29,6 +30,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setDataLoadingStatus, (state, action) => {
       state.isDataLoading = action.payload;
+    })
+    .addCase(requireAuthorization, (state, action) => {
+      state.authorizationStatus = action.payload;
     });
 });
 
