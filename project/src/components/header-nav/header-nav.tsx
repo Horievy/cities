@@ -6,7 +6,6 @@ import { logoutAction } from '../../store/api-actions';
 export default function HeaderNav() {
   const {authorizationStatus} = useAppSelector((state) => state);
 
-  // const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   function logOut(e:React.MouseEvent<HTMLAnchorElement>) {
