@@ -1,24 +1,19 @@
-import { useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { AppRoute, AuthorizationStatus } from '../../const';
+import { Link } from 'react-router-dom';
+import {AuthorizationStatus } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { logoutAction } from '../../store/api-actions';
 
 export default function HeaderNav() {
   const {authorizationStatus} = useAppSelector((state) => state);
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  function logOut() {
+  function logOut(e:React.MouseEvent<HTMLAnchorElement>) {
+    e.preventDefault();
+
     dispatch(logoutAction());
   }
-
-  useEffect(() => {
-    if (authorizationStatus === AuthorizationStatus.NoAuth) {
-      navigate(AppRoute.Login);
-    }
-  }, [authorizationStatus]);
 
   return (
     <nav className="header__nav">
