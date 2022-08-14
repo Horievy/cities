@@ -35,7 +35,7 @@ export const fetchOffer = createAsyncThunk<void, undefined, {
       const {data} = await api.get<Offer>(`${APIRoute.Hotels}${id}`);
       dispatch(setPlace(data));
     } catch {
-      dispatch(redirectToRoute(AppRoute.Main));
+      dispatch(redirectToRoute(AppRoute.NotFound));
     }
   },
 );
