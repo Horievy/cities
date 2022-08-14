@@ -1,7 +1,7 @@
 import {AxiosInstance} from 'axios';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AppDispatch, State} from '../types/state.js';
-import {setPlaces, setDataLoadingStatus, requireAuthorization, setReviews} from './action';
+import {setPlaces, setDataLoadingStatus, requireAuthorization, setPlace, setReviews} from './action';
 import {APIRoute, AuthorizationStatus} from '../const';
 import { AuthData, Offer, Review, ReviewData, UserData } from '../types/mainTypes.js';
 import {saveToken, dropToken} from '../services/token';
@@ -22,6 +22,21 @@ export const fetchOffers = createAsyncThunk<void, undefined, {
   },
 );
 
+export const fetchOffer = createAsyncThunk<void, undefined, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'offer/setPlace',
+  async (_arg, {dispatch, getState, extra: api}) => {
+
+    const id = getState().currentPlaceId;
+
+    const {data} = await api.get<Offer>(`${APIRoute.Hotels}${id}`);
+    dispatch(setPlace(data));
+  },
+);
+
 export const fetchReviews = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch,
   state: State,
@@ -33,7 +48,6 @@ export const fetchReviews = createAsyncThunk<void, undefined, {
 
     const {data} = await api.get<Review[]>(`${APIRoute.Reviews}${id}`);
     dispatch(setReviews(data));
-
   },
 );
 

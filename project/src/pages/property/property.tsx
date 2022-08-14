@@ -5,8 +5,9 @@ import PlaceList from '../../components/place-list/place-list';
 import Rating from '../../components/rating/rating';
 import Reviews from '../../components/reviews/reviews';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
+import {fetchOffer, fetchReviews } from '../../store/api-actions';
+import Loader from '../../components/loader/loader';
 import { setPlaceId } from '../../store/action';
-import { fetchReviews } from '../../store/api-actions';
 import { Offer } from '../../types/mainTypes';
 
 
@@ -15,25 +16,23 @@ export default function Property(): JSX.Element {
   const params = useParams();
   const id = Number(params.id) ?? 0;
 
-
-  const {placesList, reviews} = useAppSelector((state) => state);
-
+  const {currentPlace, reviews, placesList} = useAppSelector((state) => state);
 
   useEffect(() => {
     dispatch(setPlaceId(id));
     window.scrollTo(0, 0);
 
+    dispatch(fetchOffer());
     dispatch(fetchReviews());
   }, [id]);
 
-  const currentOffer: Offer = getCurrentOffer(id, placesList);
-  const {images, bedrooms, description, goods, host:{isPro, avatarUrl, name}, isPremium, maxAdults, price, rating, title, type} = currentOffer;
+  if (!currentPlace) {
+    return <Loader />;
+  }
+
+  const {images, bedrooms, description, goods, host:{isPro, avatarUrl, name}, isPremium, maxAdults, price, rating, title, type} = currentPlace;
   const imagesToRender = images.slice(0, 5);
   const reccomendedOffers: Offer[] = placesList.filter((item) => item.id !== (id && +id)).slice(0, 3);
-
-  function getCurrentOffer(pageId: number, allOffers:Offer[]): Offer {
-    return allOffers.find((el:Offer) => el.id === +pageId) || allOffers[0];
-  }
 
   return (
     <React.Fragment>
@@ -121,7 +120,7 @@ export default function Property(): JSX.Element {
                     </p>
                   </div>
                 </div>
-                {reviews && <Reviews reviews={reviews}/>}
+                {reviews ? <Reviews reviews={reviews}/> : <p>No reviews yet</p>}
               </div>
             </div>
             <section className="property__map map"></section>
@@ -133,7 +132,7 @@ export default function Property(): JSX.Element {
             </section>
           </div>
         </main>
-      </div>``
+      </div>
     </React.Fragment>
   );
 }

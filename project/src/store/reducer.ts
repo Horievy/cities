@@ -1,5 +1,5 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {changeCity, changeSortType, setDataLoadingStatus, setPlaces, requireAuthorization, setReviews, setPlaceId} from './action';
+import {changeCity, changeSortType, setDataLoadingStatus, setPlaces, requireAuthorization, setPlace, setReviews, setPlaceId} from './action';
 import { AuthorizationStatus, CITIES } from '../const';
 import { InitialState } from '../types/mainTypes';
 
@@ -23,6 +23,9 @@ const reducer = createReducer(initialState, (builder) => {
       const {placesList} = action.payload;
 
       return { ...state, placesList};
+    })
+    .addCase(setPlace, (state, action) => {
+      state.currentPlace = action.payload;
     })
     .addCase(setPlaceId, (state, action) => {
       state.currentPlaceId = action.payload;
