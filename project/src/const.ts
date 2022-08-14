@@ -63,7 +63,9 @@ export const SORT_OPTIONS: SortType[] = [
 ];
 
 export enum APIRoute {
-  Hotels = '/hotels',
+  Hotels = '/hotels/',
   Login = '/login',
   Logout = '/logout',
+  Nearby = '/nearby',
+  Reviews = '/comments/'
 }
