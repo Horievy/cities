@@ -5,10 +5,9 @@ import PlaceList from '../../components/place-list/place-list';
 import Rating from '../../components/rating/rating';
 import Reviews from '../../components/reviews/reviews';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
-import {fetchOffer, fetchReviews } from '../../store/api-actions';
+import { fetchNearestPlaces, fetchOffer, fetchReviews } from '../../store/api-actions';
 import Loader from '../../components/loader/loader';
 import { setPlaceId } from '../../store/action';
-import { Offer } from '../../types/mainTypes';
 
 
 export default function Property(): JSX.Element {
@@ -16,23 +15,24 @@ export default function Property(): JSX.Element {
   const params = useParams();
   const id = Number(params.id) ?? 0;
 
-  const {currentPlace, reviews, placesList} = useAppSelector((state) => state);
+  const {currentPlace, nearestPlaces, reviews} = useAppSelector((state) => state);
+
 
   useEffect(() => {
     dispatch(setPlaceId(id));
     window.scrollTo(0, 0);
 
     dispatch(fetchOffer());
+    dispatch(fetchNearestPlaces());
     dispatch(fetchReviews());
   }, [id]);
 
-  if (!currentPlace) {
+  if(!currentPlace) {
     return <Loader />;
   }
 
   const {images, bedrooms, description, goods, host:{isPro, avatarUrl, name}, isPremium, maxAdults, price, rating, title, type} = currentPlace;
   const imagesToRender = images.slice(0, 5);
-  const reccomendedOffers: Offer[] = placesList.filter((item) => item.id !== (id && +id)).slice(0, 3);
 
   return (
     <React.Fragment>
@@ -84,7 +84,7 @@ export default function Property(): JSX.Element {
                     {bedrooms} Bedrooms
                   </li>
                   <li className="property__feature property__feature--adults">
-                    Max {maxAdults} adults
+                  Max {maxAdults} adults
                   </li>
                 </ul>
                 <div className="property__price">
@@ -128,7 +128,7 @@ export default function Property(): JSX.Element {
           <div className="container">
             <section className="near-places places">
               <h2 className="near-places__title">Other places in the neighbourhood</h2>
-              <PlaceList placesList={reccomendedOffers} classPrefix='near-places'/>
+              {nearestPlaces && <PlaceList placesList={nearestPlaces} classPrefix='near-places'/>}
             </section>
           </div>
         </main>

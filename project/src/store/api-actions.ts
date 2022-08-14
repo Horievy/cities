@@ -1,7 +1,7 @@
 import {AxiosInstance} from 'axios';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AppDispatch, State} from '../types/state.js';
-import {setPlaces, setDataLoadingStatus, requireAuthorization, setPlace, setReviews} from './action';
+import {setPlaces, setDataLoadingStatus, requireAuthorization, setPlace, setNearestPlaces, setReviews} from './action';
 import {APIRoute, AuthorizationStatus} from '../const';
 import { AuthData, Offer, Review, ReviewData, UserData } from '../types/mainTypes.js';
 import {saveToken, dropToken} from '../services/token';
@@ -34,6 +34,20 @@ export const fetchOffer = createAsyncThunk<void, undefined, {
 
     const {data} = await api.get<Offer>(`${APIRoute.Hotels}${id}`);
     dispatch(setPlace(data));
+  },
+);
+
+export const fetchNearestPlaces = createAsyncThunk<void, undefined, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'offer/setNearestPlacs',
+  async (_arg, {dispatch, getState, extra: api}) => {
+    const id = getState().currentPlaceId;
+
+    const {data} = await api.get<Offer[]>(`${APIRoute.Hotels}${id}${APIRoute.Nearby}`);
+    dispatch(setNearestPlaces(data));
   },
 );
 

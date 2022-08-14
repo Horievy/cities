@@ -12,6 +12,8 @@ export const setPlaceId = createAction<number>('offer/setPlaceId');
 
 export const setPlace = createAction<Offer>('offer/setPlace');
 
+export const setNearestPlaces = createAction<Offer[]>('offer/setNearestPlacs');
+
 export const setReviews = createAction<Review[]>('offer/setReviews');
 
 export const setDataLoadingStatus = createAction<boolean>('data/setDataLoadingStatus');
