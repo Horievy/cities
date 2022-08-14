@@ -4,25 +4,34 @@ import Header from '../../components/header/header';
 import PlaceList from '../../components/place-list/place-list';
 import Rating from '../../components/rating/rating';
 import Reviews from '../../components/reviews/reviews';
-import { useAppSelector } from '../../hooks/reduxHooks';
-import { reviews } from '../../mocks/reviews';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
+import { setPlaceId } from '../../store/action';
+import { fetchReviews } from '../../store/api-actions';
 import { Offer } from '../../types/mainTypes';
 
 
 export default function Property(): JSX.Element {
-  const {placesList} = useAppSelector((state) => state);
-  const {id} = useParams();
+  const dispatch = useAppDispatch();
+  const params = useParams();
+  const id = Number(params.id) ?? 0;
+
+
+  const {placesList, reviews} = useAppSelector((state) => state);
+
 
   useEffect(() => {
+    dispatch(setPlaceId(id));
     window.scrollTo(0, 0);
+
+    dispatch(fetchReviews());
   }, [id]);
 
-  const currentOffer: Offer = getCurrentOffer(id || '', placesList);
+  const currentOffer: Offer = getCurrentOffer(id, placesList);
   const {images, bedrooms, description, goods, host:{isPro, avatarUrl, name}, isPremium, maxAdults, price, rating, title, type} = currentOffer;
   const imagesToRender = images.slice(0, 5);
   const reccomendedOffers: Offer[] = placesList.filter((item) => item.id !== (id && +id)).slice(0, 3);
 
-  function getCurrentOffer(pageId: string, allOffers:Offer[]): Offer {
+  function getCurrentOffer(pageId: number, allOffers:Offer[]): Offer {
     return allOffers.find((el:Offer) => el.id === +pageId) || allOffers[0];
   }
 
@@ -112,7 +121,7 @@ export default function Property(): JSX.Element {
                     </p>
                   </div>
                 </div>
-                <Reviews reviews={reviews}/>
+                {reviews && <Reviews reviews={reviews}/>}
               </div>
             </div>
             <section className="property__map map"></section>

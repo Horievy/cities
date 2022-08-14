@@ -1,9 +1,9 @@
 import {AxiosInstance} from 'axios';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AppDispatch, State} from '../types/state.js';
-import {setPlaces, setDataLoadingStatus, requireAuthorization} from './action';
+import {setPlaces, setDataLoadingStatus, requireAuthorization, setReviews} from './action';
 import {APIRoute, AuthorizationStatus} from '../const';
-import { AuthData, Offer, UserData } from '../types/mainTypes.js';
+import { AuthData, Offer, Review, ReviewData, UserData } from '../types/mainTypes.js';
 import {saveToken, dropToken} from '../services/token';
 
 export const fetchOffers = createAsyncThunk<void, undefined, {
@@ -19,6 +19,35 @@ export const fetchOffers = createAsyncThunk<void, undefined, {
     dispatch(setPlaces({placesList: data}));
 
     dispatch(setDataLoadingStatus(false));
+  },
+);
+
+export const fetchReviews = createAsyncThunk<void, undefined, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'offer/setReviews',
+  async (_arg, {dispatch, getState, extra: api}) => {
+    const id = getState().currentPlaceId;
+
+    const {data} = await api.get<Review[]>(`${APIRoute.Reviews}${id}`);
+    dispatch(setReviews(data));
+
+  },
+);
+
+export const addReview = createAsyncThunk<void, ReviewData, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'offer/addReview',
+  async ({rating, comment}, {dispatch, getState, extra: api}) => {
+    const id = getState().currentPlaceId;
+
+    const {data} = await api.post<Review[]>(`${APIRoute.Reviews}${id}`, {rating, comment});
+    dispatch(setReviews(data));
   },
 );
 

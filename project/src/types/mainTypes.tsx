@@ -72,7 +72,11 @@ export type InitialState = {
   placesList: Offer[],
   sortType: SortType,
   isDataLoading: boolean,
-  authorizationStatus: AuthorizationStatus
+  authorizationStatus: AuthorizationStatus,
+  currentPlace?: Offer,
+  nearestPlaces?: Offer[],
+  reviews?: Review[],
+  currentPlaceId: number
 }
 
 export type SortType = 'Popular' | 'Price: low to high'|'Price: high to low'|'Top rated first';
@@ -87,4 +91,9 @@ export type UserData = {
   id: number;
   email: string;
   token: string;
+}
+
+export type ReviewData = {
+  rating: number;
+  comment: string;
 }
