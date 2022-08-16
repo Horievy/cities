@@ -1,15 +1,23 @@
 import { Link } from 'react-router-dom';
+import {AuthorizationStatus } from '../../const';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
+import { logoutAction } from '../../store/api-actions';
 
-interface HeaderNavProps {
-  isLoggedIn: boolean
-}
+export default function HeaderNav() {
+  const {authorizationStatus} = useAppSelector((state) => state);
 
-export default function HeaderNav({isLoggedIn}: HeaderNavProps) {
+  const dispatch = useAppDispatch();
+
+  function logOut(e:React.MouseEvent<HTMLAnchorElement>) {
+    e.preventDefault();
+
+    dispatch(logoutAction());
+  }
 
   return (
     <nav className="header__nav">
       {
-        isLoggedIn
+        authorizationStatus === AuthorizationStatus.Auth
           ?
           <ul className="header__nav-list">
             <li className="header__nav-item user">
@@ -21,9 +29,9 @@ export default function HeaderNav({isLoggedIn}: HeaderNavProps) {
               </Link>
             </li>
             <li className="header__nav-item">
-              <Link to='/login' className="header__nav-link">
+              <a href='#logout' className="header__nav-link" onClick={logOut}>
                 <span className="header__signout">Sign out</span>
-              </Link>
+              </a>
             </li>
           </ul>
           :

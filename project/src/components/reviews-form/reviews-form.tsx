@@ -1,15 +1,16 @@
 import { useState, useEffect } from 'react';
+import { useAppDispatch } from '../../hooks/reduxHooks';
+import { addReview } from '../../store/api-actions';
+import { ReviewData } from '../../types/mainTypes';
 
-interface ReviewFormData {
-  rating: number,
-  review: string,
-}
+const INITIAL_FORM_DATA:ReviewData = {
+  rating: 0,
+  comment: ''
+};
 
 export default function ReviewsForm() {
-  const [formData, setFormData] = useState<ReviewFormData>({
-    rating: 0,
-    review: ''
-  });
+  const dispatch = useAppDispatch();
+  const [formData, setFormData] = useState<ReviewData>(INITIAL_FORM_DATA);
   const [disabled, setDisabled] = useState(true);
 
   useEffect(() => {
@@ -18,6 +19,18 @@ export default function ReviewsForm() {
 
   function handleSubmit(e:React.SyntheticEvent): void {
     e.preventDefault();
+
+    dispatch(addReview(formData));
+    setFormData(INITIAL_FORM_DATA);
+    disableReviewStars();
+  }
+
+  function disableReviewStars() {
+    const checkedRadioInput = document.querySelector('.form__rating-input.visually-hidden:checked') as HTMLInputElement | null;
+
+    if (checkedRadioInput !== null) {
+      checkedRadioInput.checked = false;
+    }
   }
 
   function onFormChange(e:React.SyntheticEvent): void {
@@ -25,11 +38,11 @@ export default function ReviewsForm() {
 
     target.checked
       ? setFormData({...formData, rating: +target.value})
-      : setFormData({...formData, review: target.value});
+      : setFormData({...formData, comment: target.value});
   }
 
-  function isReadyForSubmit({rating, review}: ReviewFormData): void {
-    rating > 0 && review.length >= 50
+  function isReadyForSubmit({rating, comment}: ReviewData): void {
+    rating > 0 && comment.length >= 50
       ? setDisabled(false)
       : setDisabled(true);
   }
@@ -73,7 +86,7 @@ export default function ReviewsForm() {
           </svg>
         </label>
       </div>
-      <textarea className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved"></textarea>
+      <textarea className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved" onChange={onFormChange} value={formData.comment}/>
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
         To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.

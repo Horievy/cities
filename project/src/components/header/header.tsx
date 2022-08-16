@@ -15,7 +15,7 @@ export default function Header({isNavHidden}: HeaderProps) {
           </div>
           {isNavHidden
             ? null
-            : <HeaderNav isLoggedIn={false} />}
+            : <HeaderNav/>}
         </div>
       </div>
     </header>

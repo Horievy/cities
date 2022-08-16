@@ -1,5 +1,5 @@
-import {AppRoute, AuthorizationStatus} from '../../const';
-import {Route, BrowserRouter, Routes} from 'react-router-dom';
+import {AppRoute} from '../../const';
+import {Route, Routes} from 'react-router-dom';
 import {Offer} from '../../types/mainTypes';
 
 import Main from '../../pages/main/main';
@@ -10,6 +10,8 @@ import Property from '../../pages/property/property';
 import PrivateRoute from '../privateRoute/privateRoute';
 import { useAppSelector } from '../../hooks/reduxHooks';
 import Loader from '../loader/loader';
+import HistoryRouter from '../history-route/history-route';
+import browserHistory from '../../browser-history';
 
 interface AppProps {
   favoriteOffers: Offer[],
@@ -23,7 +25,7 @@ function App({favoriteOffers}: AppProps): JSX.Element {
   }
 
   return (
-    <BrowserRouter>
+    <HistoryRouter history={browserHistory}>
       <Routes>
         <Route
           path={AppRoute.Main}
@@ -38,7 +40,7 @@ function App({favoriteOffers}: AppProps): JSX.Element {
         <Route
           path={AppRoute.Favorites}
           element={
-            <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+            <PrivateRoute>
               <Favorites offers={favoriteOffers}/>
             </PrivateRoute>
           }
@@ -52,7 +54,7 @@ function App({favoriteOffers}: AppProps): JSX.Element {
           element={<PageNotFound/>}
         />
       </Routes>
-    </BrowserRouter>
+    </HistoryRouter>
   );
 }
 
