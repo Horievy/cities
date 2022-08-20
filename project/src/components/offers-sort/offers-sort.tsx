@@ -16,7 +16,7 @@ function OffersSort() {
   }
 
   function onFilterSelection(sortOption: SortType) {
-    dispatch(changeSortType({sortType: sortOption}));
+    dispatch(changeSortType(sortOption));
   }
 
   return (

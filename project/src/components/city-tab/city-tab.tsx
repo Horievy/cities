@@ -17,7 +17,7 @@ export default function CityTab({cityName}: CityTabProps) {
   function clickHandler() {
     const activeCity: City = CITIES.find((item) => item.title === cityName) || CITIES[0];
 
-    dispatch(changeCity({city: activeCity}));
+    dispatch(changeCity(activeCity));
   }
 
   return (

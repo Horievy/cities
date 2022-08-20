@@ -1,5 +1,3 @@
-import { AuthorizationStatus } from '../const';
-
 export type Offer = {
   bedrooms: number
   city: {
@@ -65,18 +63,6 @@ export type Points = Point[];
 
 export interface SearchFunc {
   (place: Offer): void;
-}
-
-export type InitialState = {
-  city: City,
-  placesList: Offer[],
-  sortType: SortType,
-  isDataLoading: boolean,
-  authorizationStatus: AuthorizationStatus,
-  currentPlace?: Offer,
-  nearestPlaces?: Offer[],
-  reviews?: Review[],
-  currentPlaceId: number
 }
 
 export type SortType = 'Popular' | 'Price: low to high'|'Price: high to low'|'Top rated first';

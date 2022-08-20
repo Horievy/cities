@@ -1,84 +1,80 @@
 import {AxiosInstance} from 'axios';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AppDispatch, State} from '../types/state.js';
-import {setPlaces, setDataLoadingStatus, setPlace, setNearestPlaces, setReviews, redirectToRoute} from './action';
+import {redirectToRoute} from './action';
 import {APIRoute, AppRoute} from '../const';
 import { AuthData, Offer, Review, ReviewData, UserData } from '../types/mainTypes.js';
 import {saveToken, dropToken} from '../services/token';
 
-export const fetchOffers = createAsyncThunk<void, undefined, {
+export const fetchPlaces = createAsyncThunk<Offer[], undefined, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
 }>(
-  'main/setPlaces',
+  'data/fetchPlaces',
   async (_arg, {dispatch, extra: api}) => {
-    dispatch(setDataLoadingStatus(true));
-
     const {data} = await api.get<Offer[]>(APIRoute.Hotels);
-    dispatch(setPlaces({placesList: data}));
-
-    dispatch(setDataLoadingStatus(false));
-  },
+    return data;
+  }
 );
 
-export const fetchOffer = createAsyncThunk<void, undefined, {
+export const fetchOffer = createAsyncThunk<Offer|undefined, undefined, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
 }>(
-  'offer/setPlace',
+  'data/fetchOffer',
   async (_arg, {dispatch, getState, extra: api}) => {
     try {
       const id = getState().currentPlaceId;
 
       const {data} = await api.get<Offer>(`${APIRoute.Hotels}${id}`);
-      dispatch(setPlace(data));
+      return data;
     } catch {
       dispatch(redirectToRoute(AppRoute.NotFound));
     }
-  },
+  }
 );
 
-export const fetchNearestPlaces = createAsyncThunk<void, undefined, {
+export const fetchNearestPlaces = createAsyncThunk<Offer[], undefined, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
 }>(
-  'offer/setNearestPlacs',
+  'data/fetchNearestPlaces',
   async (_arg, {dispatch, getState, extra: api}) => {
     const id = getState().currentPlaceId;
 
     const {data} = await api.get<Offer[]>(`${APIRoute.Hotels}${id}${APIRoute.Nearby}`);
-    dispatch(setNearestPlaces(data));
+    return data;
   },
 );
 
-export const fetchReviews = createAsyncThunk<void, undefined, {
+export const fetchReviews = createAsyncThunk<Review[], undefined, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
 }>(
-  'offer/setReviews',
+  'data/fetchReviews',
   async (_arg, {dispatch, getState, extra: api}) => {
     const id = getState().currentPlaceId;
 
     const {data} = await api.get<Review[]>(`${APIRoute.Reviews}${id}`);
-    dispatch(setReviews(data));
+    return data;
   },
 );
 
-export const addReview = createAsyncThunk<void, ReviewData, {
+export const addReview = createAsyncThunk<Review[], ReviewData, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
 }>(
-  'offer/addReview',
+  'data/addReview',
   async ({rating, comment}, {dispatch, getState, extra: api}) => {
     const id = getState().currentPlaceId;
 
     const {data} = await api.post<Review[]>(`${APIRoute.Reviews}${id}`, {rating, comment});
-    dispatch(setReviews(data));
+    return data;
   },
 );
 
