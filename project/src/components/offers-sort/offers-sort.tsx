@@ -3,8 +3,9 @@ import { SORT_OPTIONS } from '../../const';
 import { changeSortType } from '../../store/action';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { SortType } from '../../types/mainTypes';
+import React from 'react';
 
-export default function OffersSort() {
+function OffersSort() {
   const {sortType} = useAppSelector((state) => state);
   const dispatch = useAppDispatch();
 
@@ -40,3 +41,5 @@ export default function OffersSort() {
     </form>
   );
 }
+
+export default React.memo(OffersSort);

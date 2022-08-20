@@ -1,4 +1,4 @@
-import React, {useState } from 'react';
+import React, {useCallback, useState } from 'react';
 import Header from '../../components/header/header';
 import PlaceList from '../../components/place-list/place-list';
 import Map from '../../components/map/map';
@@ -9,7 +9,7 @@ import OffersSort from '../../components/offers-sort/offers-sort';
 import { getFilteredOffers, getSortedOffers } from '../../store/selectors';
 
 export default function Main(): JSX.Element {
-  const {city} = useAppSelector((state) => state);
+  const {city, sortType} = useAppSelector((state) => state);
   const cityOffers: Offer[] = useAppSelector(getFilteredOffers);
   const sortedOffers: Offer[] = useAppSelector(getSortedOffers);
 
@@ -24,9 +24,12 @@ export default function Main(): JSX.Element {
   });
   const [selectedOffer, setSelectedOffer] = useState<Offer>(cityOffers[0]);
 
-  function getSelectedOffer(place: Offer): void {
-    setSelectedOffer(place);
-  }
+  const getSelectedOffer = useCallback(
+    (place: Offer): void => {
+      setSelectedOffer(place);
+    },
+    [sortType]
+  );
 
   return (
     <React.Fragment>

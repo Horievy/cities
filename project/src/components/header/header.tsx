@@ -1,3 +1,4 @@
+import React from 'react';
 import HeaderNav from '../header-nav/header-nav';
 import Logo from '../logo/logo';
 
@@ -5,7 +6,7 @@ interface HeaderProps {
   isNavHidden?: boolean,
 }
 
-export default function Header({isNavHidden}: HeaderProps) {
+function Header({isNavHidden}: HeaderProps) {
   return (
     <header className="header">
       <div className="container">
@@ -21,3 +22,5 @@ export default function Header({isNavHidden}: HeaderProps) {
     </header>
   );
 }
+
+export default React.memo(Header);

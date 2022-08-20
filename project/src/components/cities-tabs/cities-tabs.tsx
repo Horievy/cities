@@ -1,8 +1,9 @@
+import React from 'react';
 import { CITIES } from '../../const';
 import CityTab from '../city-tab/city-tab';
 
 
-export default function CitiesTabs() {
+function CitiesTabs() {
   return (
     <div className='tabs'>
       <section className='locations container'>
@@ -20,3 +21,5 @@ export default function CitiesTabs() {
     </div>
   );
 }
+
+export default React.memo(CitiesTabs);
