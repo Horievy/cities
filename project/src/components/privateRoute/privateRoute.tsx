@@ -1,6 +1,7 @@
 import {Navigate} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../const';
 import { useAppSelector } from '../../hooks/reduxHooks';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 
 interface PrivateRouteProps {
@@ -8,7 +9,7 @@ interface PrivateRouteProps {
 }
 
 export default function PrivateRoute({children}: PrivateRouteProps) {
-  const {authorizationStatus} = useAppSelector((state) => state);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   return (
     authorizationStatus === AuthorizationStatus.Auth

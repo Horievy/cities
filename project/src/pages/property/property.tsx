@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { fetchNearestPlaces, fetchOffer, fetchReviews } from '../../store/api-actions';
 import Loader from '../../components/loader/loader';
 import { setPlaceId } from '../../store/action';
+import { getCurrentPlace, getNearestPlaces, getReviews } from '../../store/app-data/selectors';
 
 
 export default function Property(): JSX.Element {
@@ -15,7 +16,9 @@ export default function Property(): JSX.Element {
   const params = useParams();
   const id = Number(params.id) ?? 0;
 
-  const {currentPlace, nearestPlaces, reviews} = useAppSelector((state) => state);
+  const currentPlace = useAppSelector(getCurrentPlace);
+  const nearestPlaces = useAppSelector(getNearestPlaces);
+  const reviews = useAppSelector(getReviews);
 
 
   useEffect(() => {

@@ -1,12 +1,10 @@
 import { createSelector } from 'reselect';
-import { City, InitialState, Offer, SortType } from '../types/mainTypes';
 
-export const selectPlacesList = (state: InitialState) => state.placesList;
-export const selectCity = (state: InitialState) => state.city;
-export const getSortType = (state: InitialState) => state.sortType;
+import { City, Offer, SortType } from '../types/mainTypes';
+import { getCity, getPlacesList, getSortType } from './app-data/selectors';
 
 export const getFilteredOffers = createSelector(
-  [selectPlacesList, selectCity],
+  [getPlacesList, getCity],
   (places:Offer[], city: City) => places.filter((place) => place.city.name === city.title)
 );
 

@@ -2,9 +2,10 @@ import { Link } from 'react-router-dom';
 import {AuthorizationStatus } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { logoutAction } from '../../store/api-actions';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 export default function HeaderNav() {
-  const {authorizationStatus} = useAppSelector((state) => state);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   const dispatch = useAppDispatch();
 

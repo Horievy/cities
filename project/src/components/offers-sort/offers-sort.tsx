@@ -4,9 +4,10 @@ import { changeSortType } from '../../store/action';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { SortType } from '../../types/mainTypes';
 import React from 'react';
+import { getSortType } from '../../store/app-data/selectors';
 
 function OffersSort() {
-  const {sortType} = useAppSelector((state) => state);
+  const sortType = useAppSelector(getSortType);
   const dispatch = useAppDispatch();
 
   const [filterOpenstate, setFilterState] = useState(false);

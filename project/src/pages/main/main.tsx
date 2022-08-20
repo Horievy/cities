@@ -7,9 +7,11 @@ import {useAppSelector} from '../../hooks/reduxHooks';
 import CitiesTabs from '../../components/cities-tabs/cities-tabs';
 import OffersSort from '../../components/offers-sort/offers-sort';
 import { getFilteredOffers, getSortedOffers } from '../../store/selectors';
+import { getCity, getSortType } from '../../store/app-data/selectors';
 
 export default function Main(): JSX.Element {
-  const {city, sortType} = useAppSelector((state) => state);
+  const city = useAppSelector(getCity);
+  const sortType = useAppSelector(getSortType);
   const cityOffers: Offer[] = useAppSelector(getFilteredOffers);
   const sortedOffers: Offer[] = useAppSelector(getSortedOffers);
 

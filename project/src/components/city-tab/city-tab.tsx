@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { CITIES } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { changeCity } from '../../store/action';
+import { getCity } from '../../store/app-data/selectors';
 import { City } from '../../types/mainTypes';
 
 interface CityTabProps {
@@ -10,7 +11,7 @@ interface CityTabProps {
 
 export default function CityTab({cityName}: CityTabProps) {
   const dispatch = useAppDispatch();
-  const {city} = useAppSelector((state) => state);
+  const city = useAppSelector(getCity);
 
   const isActive = city.title === cityName;
 

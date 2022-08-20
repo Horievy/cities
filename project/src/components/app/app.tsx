@@ -12,13 +12,14 @@ import { useAppSelector } from '../../hooks/reduxHooks';
 import Loader from '../loader/loader';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
+import { getDataLoadingStatus } from '../../store/app-data/selectors';
 
 interface AppProps {
   favoriteOffers: Offer[],
 }
 
 function App({favoriteOffers}: AppProps): JSX.Element {
-  const {isDataLoading} = useAppSelector((state) => state);
+  const isDataLoading = useAppSelector(getDataLoadingStatus);
 
   if (isDataLoading) {
     return <Loader />;

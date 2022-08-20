@@ -2,7 +2,7 @@ import {AxiosInstance} from 'axios';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AppDispatch, State} from '../types/state.js';
 import {redirectToRoute} from './action';
-import {APIRoute, AppRoute} from '../const';
+import {APIRoute, AppRoute, NameSpace} from '../const';
 import { AuthData, Offer, Review, ReviewData, UserData } from '../types/mainTypes.js';
 import {saveToken, dropToken} from '../services/token';
 
@@ -26,7 +26,7 @@ export const fetchOffer = createAsyncThunk<Offer|undefined, undefined, {
   'data/fetchOffer',
   async (_arg, {dispatch, getState, extra: api}) => {
     try {
-      const id = getState().DATA.currentPlaceId;
+      const id = getState()[NameSpace.Data].currentPlaceId;
 
       const {data} = await api.get<Offer>(`${APIRoute.Hotels}${id}`);
       return data;
@@ -43,7 +43,7 @@ export const fetchNearestPlaces = createAsyncThunk<Offer[], undefined, {
 }>(
   'data/fetchNearestPlaces',
   async (_arg, {dispatch, getState, extra: api}) => {
-    const id = getState().DATA.currentPlaceId;
+    const id = getState()[NameSpace.Data].currentPlaceId;
 
     const {data} = await api.get<Offer[]>(`${APIRoute.Hotels}${id}${APIRoute.Nearby}`);
     return data;
@@ -57,7 +57,7 @@ export const fetchReviews = createAsyncThunk<Review[], undefined, {
 }>(
   'data/fetchReviews',
   async (_arg, {dispatch, getState, extra: api}) => {
-    const id = getState().DATA.currentPlaceId;
+    const id = getState()[NameSpace.Data].currentPlaceId;
 
     const {data} = await api.get<Review[]>(`${APIRoute.Reviews}${id}`);
     return data;
@@ -71,7 +71,7 @@ export const addReview = createAsyncThunk<Review[], ReviewData, {
 }>(
   'data/addReview',
   async ({rating, comment}, {dispatch, getState, extra: api}) => {
-    const id = getState().DATA.currentPlaceId;
+    const id = getState()[NameSpace.Data].currentPlaceId;
 
     const {data} = await api.post<Review[]>(`${APIRoute.Reviews}${id}`, {rating, comment});
     return data;
