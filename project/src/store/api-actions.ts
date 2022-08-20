@@ -26,7 +26,7 @@ export const fetchOffer = createAsyncThunk<Offer|undefined, undefined, {
   'data/fetchOffer',
   async (_arg, {dispatch, getState, extra: api}) => {
     try {
-      const id = getState().currentPlaceId;
+      const id = getState().DATA.currentPlaceId;
 
       const {data} = await api.get<Offer>(`${APIRoute.Hotels}${id}`);
       return data;
@@ -43,7 +43,7 @@ export const fetchNearestPlaces = createAsyncThunk<Offer[], undefined, {
 }>(
   'data/fetchNearestPlaces',
   async (_arg, {dispatch, getState, extra: api}) => {
-    const id = getState().currentPlaceId;
+    const id = getState().DATA.currentPlaceId;
 
     const {data} = await api.get<Offer[]>(`${APIRoute.Hotels}${id}${APIRoute.Nearby}`);
     return data;
@@ -57,7 +57,7 @@ export const fetchReviews = createAsyncThunk<Review[], undefined, {
 }>(
   'data/fetchReviews',
   async (_arg, {dispatch, getState, extra: api}) => {
-    const id = getState().currentPlaceId;
+    const id = getState().DATA.currentPlaceId;
 
     const {data} = await api.get<Review[]>(`${APIRoute.Reviews}${id}`);
     return data;
@@ -71,7 +71,7 @@ export const addReview = createAsyncThunk<Review[], ReviewData, {
 }>(
   'data/addReview',
   async ({rating, comment}, {dispatch, getState, extra: api}) => {
-    const id = getState().currentPlaceId;
+    const id = getState().DATA.currentPlaceId;
 
     const {data} = await api.post<Review[]>(`${APIRoute.Reviews}${id}`, {rating, comment});
     return data;
