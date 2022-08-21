@@ -8,6 +8,7 @@ import CitiesTabs from '../../components/cities-tabs/cities-tabs';
 import OffersSort from '../../components/offers-sort/offers-sort';
 import { getFilteredOffers, getSortedOffers } from '../../store/selectors';
 import { getCity, getSortType } from '../../store/app-data/selectors';
+import MainEmpty from '../main-empty/main-empty';
 
 export default function Main(): JSX.Element {
   const city = useAppSelector(getCity);
@@ -32,6 +33,12 @@ export default function Main(): JSX.Element {
     },
     [sortType]
   );
+
+  if (!cityOffers.length) {
+    return (
+      <MainEmpty/>
+    );
+  }
 
   return (
     <React.Fragment>

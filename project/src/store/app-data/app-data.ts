@@ -28,6 +28,9 @@ export const appData = createSlice({
         state.placesList = action.payload;
         state.isDataLoading = false;
       })
+      .addCase(fetchPlaces.rejected, (state) => {
+        state.isDataLoading = false;
+      })
       .addCase(fetchOffer.fulfilled, (state, action) => {
         state.currentPlace = action.payload;
       })
