@@ -9,3 +9,5 @@ export const changeSortType = createAction<SortType>('data/changeSortType');
 export const redirectToRoute = createAction<AppRoute>('data/redirectToRoute');
 
 export const setPlaceId = createAction<number>('data/setPlaceId');
+
+export const clearCurrentPlace = createAction('data/clearCurrentPlace');

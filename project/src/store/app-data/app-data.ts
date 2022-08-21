@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {changeCity, changeSortType, setPlaceId} from '../action';
+import {changeCity, changeSortType, clearCurrentPlace, setPlaceId} from '../action';
 import {CITIES, NameSpace } from '../../const';
 import { AppData } from '../../types/state';
 import { addReview, fetchNearestPlaces, fetchOffer, fetchPlaces, fetchReviews, toggleFavorite } from '../api-actions';
@@ -58,6 +58,8 @@ export const appData = createSlice({
           }
           return item;
         });
+      }).addCase(clearCurrentPlace, (state, action) => {
+        state.currentPlace = undefined;
       });
   }
 });

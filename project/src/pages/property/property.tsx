@@ -9,7 +9,7 @@ import Reviews from '../../components/reviews/reviews';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { fetchNearestPlaces, fetchOffer, fetchReviews } from '../../store/api-actions';
 import Loader from '../../components/loader/loader';
-import { setPlaceId } from '../../store/action';
+import { clearCurrentPlace, setPlaceId } from '../../store/action';
 import { getCurrentPlace, getNearestPlaces, getReviews } from '../../store/app-data/selectors';
 import BookmarkBtn from '../../components/bookmark-btn/bookmark-btn';
 
@@ -31,6 +31,9 @@ export default function Property(): JSX.Element {
     dispatch(fetchOffer());
     dispatch(fetchNearestPlaces());
     dispatch(fetchReviews());
+    return () => {
+      dispatch(clearCurrentPlace());
+    };
   }, [id]);
 
   if (!currentPlace) {
