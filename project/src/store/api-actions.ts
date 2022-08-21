@@ -3,7 +3,7 @@ import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AppDispatch, State} from '../types/state.js';
 import {redirectToRoute} from './action';
 import {APIRoute, AppRoute, NameSpace} from '../const';
-import { AuthData, Offer, Review, ReviewData, UserData } from '../types/mainTypes.js';
+import { AuthData, FavoriteData, Offer, Review, ReviewData, UserData } from '../types/mainTypes.js';
 import {saveToken, dropToken} from '../services/token';
 
 export const fetchPlaces = createAsyncThunk<Offer[], undefined, {
@@ -111,5 +111,18 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   async (_arg, {dispatch, extra: api}) => {
     await api.delete(APIRoute.Logout);
     dropToken();
+  },
+);
+
+export const toggleFavorite = createAsyncThunk<number, FavoriteData, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'data/toggleFavorite',
+  async ({placeId, status}, {dispatch, getState, extra: api}) => {
+
+    await api.post<Offer>(`${APIRoute.Favorite}${placeId}/${status}`);
+    return placeId;
   },
 );

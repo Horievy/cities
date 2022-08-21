@@ -82,3 +82,8 @@ export type ReviewData = {
   rating: number;
   comment: string;
 }
+
+export type FavoriteData = {
+  placeId: number;
+  status: string;
+}

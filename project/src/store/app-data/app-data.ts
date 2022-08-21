@@ -2,7 +2,7 @@ import {createSlice} from '@reduxjs/toolkit';
 import {changeCity, changeSortType, setPlaceId} from '../action';
 import {CITIES, NameSpace } from '../../const';
 import { AppData } from '../../types/state';
-import { addReview, fetchNearestPlaces, fetchOffer, fetchPlaces, fetchReviews } from '../api-actions';
+import { addReview, fetchNearestPlaces, fetchOffer, fetchPlaces, fetchReviews, toggleFavorite } from '../api-actions';
 
 export const initialState: AppData = {
   city: CITIES[0],
@@ -48,6 +48,16 @@ export const appData = createSlice({
       })
       .addCase(changeSortType, (state, action) => {
         state.sortType = action.payload;
+      })
+      .addCase(toggleFavorite.fulfilled, (state, action) => {
+        const id = action.payload;
+
+        state.placesList = state.placesList.map((item) => {
+          if (item.id === id) {
+            item.isFavorite = !item.isFavorite;
+          }
+          return item;
+        });
       });
   }
 });

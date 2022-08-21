@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-console */
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Header from '../../components/header/header';
@@ -9,6 +11,7 @@ import { fetchNearestPlaces, fetchOffer, fetchReviews } from '../../store/api-ac
 import Loader from '../../components/loader/loader';
 import { setPlaceId } from '../../store/action';
 import { getCurrentPlace, getNearestPlaces, getReviews } from '../../store/app-data/selectors';
+import BookmarkBtn from '../../components/bookmark-btn/bookmark-btn';
 
 
 export default function Property(): JSX.Element {
@@ -30,11 +33,11 @@ export default function Property(): JSX.Element {
     dispatch(fetchReviews());
   }, [id]);
 
-  if(!currentPlace) {
+  if (!currentPlace) {
     return <Loader />;
   }
 
-  const {images, bedrooms, description, goods, host:{isPro, avatarUrl, name}, isPremium, maxAdults, price, rating, title, type} = currentPlace;
+  const {images, bedrooms, description, goods, host:{isPro, avatarUrl, name}, isPremium, maxAdults, price, rating, title, type, isFavorite} = currentPlace;
   const imagesToRender = images.slice(0, 5);
 
   return (
@@ -68,12 +71,11 @@ export default function Property(): JSX.Element {
                   <h1 className="property__name">
                     {title}
                   </h1>
-                  <button className="property__bookmark-button button" type="button">
-                    <svg className="property__bookmark-icon" width="31" height="33">
-                      <use xlinkHref="#icon-bookmark"></use>
-                    </svg>
-                    <span className="visually-hidden">To bookmarks</span>
-                  </button>
+                  <BookmarkBtn
+                    placeId={id}
+                    isFavorite={isFavorite}
+                    classPrefix='property'
+                  />
                 </div>
                 <Rating rating={rating}
                   classPrefix='property'
@@ -131,7 +133,7 @@ export default function Property(): JSX.Element {
           <div className="container">
             <section className="near-places places">
               <h2 className="near-places__title">Other places in the neighbourhood</h2>
-              {nearestPlaces && <PlaceList placesList={nearestPlaces} classPrefix='near-places'/>}
+              {/* {nearestPlaces && <PlaceList placesList={nearestPlaces} classPrefix='near-places'/>} */}
             </section>
           </div>
         </main>
