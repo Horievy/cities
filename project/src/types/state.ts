@@ -1,10 +1,10 @@
 import { AuthorizationStatus } from '../const';
 import {store} from '../store/index';
-import { City, Offer, Review, SortType } from './mainTypes';
+import { City, Offer, Review, SortType, UserData } from './mainTypes';
 
 export type UserProcess = {
   authorizationStatus: AuthorizationStatus,
-  userEmail?: string
+  userData?: UserData
 };
 
 export type AppData = {
