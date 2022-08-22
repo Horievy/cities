@@ -1,15 +1,16 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {changeCity, changeSortType, clearCurrentPlace, setPlaceId} from '../action';
+import {changeCity, changeSortType, setPlaceId} from '../action';
 import {CITIES, NameSpace } from '../../const';
 import { AppData } from '../../types/state';
-import { addReview, fetchNearestPlaces, fetchOffer, fetchPlaces, fetchReviews, toggleFavorite } from '../api-actions';
+import { addReview, fetchFavorites, fetchNearestPlaces, fetchOffer, fetchPlaces, fetchReviews } from '../api-actions';
 
 export const initialState: AppData = {
   city: CITIES[0],
   placesList: [],
   sortType: 'Popular',
   isDataLoading: false,
-  currentPlaceId: 0
+  currentPlaceId: 0,
+  favoritePlaces: []
 };
 
 export const appData = createSlice({
@@ -49,17 +50,8 @@ export const appData = createSlice({
       .addCase(changeSortType, (state, action) => {
         state.sortType = action.payload;
       })
-      .addCase(toggleFavorite.fulfilled, (state, action) => {
-        const id = action.payload;
-
-        state.placesList = state.placesList.map((item) => {
-          if (item.id === id) {
-            item.isFavorite = !item.isFavorite;
-          }
-          return item;
-        });
-      }).addCase(clearCurrentPlace, (state, action) => {
-        state.currentPlace = undefined;
+      .addCase(fetchFavorites.fulfilled, (state, action) => {
+        state.favoritePlaces = action.payload;
       });
   }
 });

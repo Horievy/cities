@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import {Offer, SearchFunc} from '../../types/mainTypes';
 import {useNavigate} from 'react-router-dom';
 import Rating from '../rating/rating';
@@ -15,22 +14,24 @@ export default function PlaceListItem({place, classPrefix, getSelectedOffer}:Pla
   const routeLink:string = AppRoute.Room.replace(':id', place.id.toString());
   const navigate = useNavigate();
 
-  const {isPremium, price, rating, title, type, previewImage, isFavorite} = place ;
+  const {isPremium, price, rating, title, type, previewImage} = place ;
 
   function handleClick(e: React.MouseEvent<HTMLElement>) {
     const target = e.target as HTMLElement;
 
     if (!target.closest('.place-card__bookmark-button')) {
-
-      getSelectedOffer && getSelectedOffer(place);
-
       navigate(routeLink);
     }
+  }
+
+  function handleHover() {
+    getSelectedOffer && getSelectedOffer(place);
   }
 
   return (
     <article className={`${classPrefix}__card place-card`}
       onClick={handleClick}
+      onMouseEnter={handleHover}
     >
       {
         isPremium &&
@@ -49,7 +50,6 @@ export default function PlaceListItem({place, classPrefix, getSelectedOffer}:Pla
           </div>
           <BookmarkBtn
             placeId={place.id}
-            isFavorite={isFavorite}
             classPrefix='place-card'
           />
         </div>

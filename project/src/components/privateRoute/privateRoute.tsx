@@ -12,7 +12,7 @@ export default function PrivateRoute({children}: PrivateRouteProps) {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   return (
-    authorizationStatus === AuthorizationStatus.Auth
+    authorizationStatus !== AuthorizationStatus.NoAuth
       ? children
       : <Navigate to={AppRoute.Login} />
   );

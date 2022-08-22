@@ -1,30 +1,38 @@
-import React, { useEffect, useRef } from 'react';
-import { useState } from 'react';
-import { useAppDispatch } from '../../hooks/reduxHooks';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { APIRoute, AuthorizationStatus } from '../../const';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { toggleFavorite } from '../../store/api-actions';
+import { getFavoritePlacesList } from '../../store/app-data/selectors';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 
-function BookmarkBtn({isFavorite, classPrefix, placeId}: {isFavorite: boolean, classPrefix: string, placeId: number}) {
-  const [favorite, setFavorite] = useState(isFavorite);
-  const firstUpdate = useRef(true);
+function BookmarkBtn({classPrefix, placeId}: {classPrefix: string, placeId: number}) {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const favoriteList = useAppSelector(getFavoritePlacesList);
 
-  useEffect(() => {
-    if (firstUpdate.current) {
-      firstUpdate.current = false;
-      return;
+  const isAuthorized = authorizationStatus === AuthorizationStatus.Auth;
+  const isFavorite = !!favoriteList.find((item) => item.id === placeId) || false;
+
+
+  function handleClick() {
+    if (!isAuthorized) {
+      navigate(APIRoute.Login);
     }
 
-    const status = String(Number(favorite));
+    const status = String(Number(!isFavorite));
+
     dispatch(toggleFavorite({placeId: placeId, status: status}));
-  }, [favorite]);
+  }
 
   return (
-    <button onClick={() => setFavorite(!favorite)} className={`${favorite ? `${classPrefix}__bookmark-button--active` : ''} button ${classPrefix}__bookmark-button`} type='button'>
+    <button onClick={handleClick} className={`${isFavorite && isAuthorized ? `${classPrefix}__bookmark-button--active` : ''} button ${classPrefix}__bookmark-button`} type='button'>
       <svg className={`${classPrefix}__bookmark-icon`} width='100%' height='100%'>
         <use xlinkHref='#icon-bookmark'></use>
       </svg>
-      <span className='visually-hidden'>{favorite ? 'To bookmarks' : 'bebe'}</span>
+      <span className='visually-hidden'>{isFavorite ? 'To bookmarks' : 'bebe'}</span>
     </button>
   );
 }

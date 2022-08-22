@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-console */
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Header from '../../components/header/header';
@@ -9,7 +7,7 @@ import Reviews from '../../components/reviews/reviews';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { fetchNearestPlaces, fetchOffer, fetchReviews } from '../../store/api-actions';
 import Loader from '../../components/loader/loader';
-import { clearCurrentPlace, setPlaceId } from '../../store/action';
+import {setPlaceId } from '../../store/action';
 import { getCurrentPlace, getNearestPlaces, getReviews } from '../../store/app-data/selectors';
 import BookmarkBtn from '../../components/bookmark-btn/bookmark-btn';
 
@@ -23,7 +21,6 @@ export default function Property(): JSX.Element {
   const nearestPlaces = useAppSelector(getNearestPlaces);
   const reviews = useAppSelector(getReviews);
 
-
   useEffect(() => {
     dispatch(setPlaceId(id));
     window.scrollTo(0, 0);
@@ -31,16 +28,12 @@ export default function Property(): JSX.Element {
     dispatch(fetchOffer());
     dispatch(fetchNearestPlaces());
     dispatch(fetchReviews());
-    return () => {
-      dispatch(clearCurrentPlace());
-    };
   }, [id]);
 
   if (!currentPlace) {
     return <Loader />;
   }
-
-  const {images, bedrooms, description, goods, host:{isPro, avatarUrl, name}, isPremium, maxAdults, price, rating, title, type, isFavorite} = currentPlace;
+  const {images, bedrooms, description, goods, host:{isPro, avatarUrl, name}, isPremium, maxAdults, price, rating, title, type} = currentPlace;
   const imagesToRender = images.slice(0, 5);
 
   return (
@@ -76,7 +69,6 @@ export default function Property(): JSX.Element {
                   </h1>
                   <BookmarkBtn
                     placeId={id}
-                    isFavorite={isFavorite}
                     classPrefix='property'
                   />
                 </div>
@@ -136,7 +128,7 @@ export default function Property(): JSX.Element {
           <div className="container">
             <section className="near-places places">
               <h2 className="near-places__title">Other places in the neighbourhood</h2>
-              {/* {nearestPlaces && <PlaceList placesList={nearestPlaces} classPrefix='near-places'/>} */}
+              {nearestPlaces && <PlaceList placesList={nearestPlaces} classPrefix='near-places'/>}
             </section>
           </div>
         </main>

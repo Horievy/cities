@@ -2,15 +2,19 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../../components/header/header';
 import PlaceListItem from '../../components/place-list-item/place-list-item';
-import {Offer} from '../../types/mainTypes';
+import { useAppSelector } from '../../hooks/reduxHooks';
+import { getFavoritePlacesList } from '../../store/app-data/selectors';
+import { Offer } from '../../types/mainTypes';
+
 
 interface SortedFav {
   cityName: string,
   items: Offer[]
 }
 
-export default function Favorites({offers}: {offers: Offer[]}): JSX.Element {
-  const sortedFavs:SortedFav[] = sortOffers(offers);
+export default function Favorites(): JSX.Element {
+  const favorites = useAppSelector(getFavoritePlacesList);
+  const sortedFavs:SortedFav[] = sortOffers(favorites);
 
   function sortOffers(arr: Offer[]):SortedFav[] {
     const sorted: SortedFav[] = [];
@@ -36,31 +40,41 @@ export default function Favorites({offers}: {offers: Offer[]}): JSX.Element {
 
         <main className="page__main page__main--favorites">
           <div className="page__favorites-container container">
-            <section className="favorites">
-              <h1 className="favorites__title">Saved listing</h1>
-              <ul className="favorites__list">
-                {
-                  sortedFavs.map((cityFavs) => (
-                    <li key={cityFavs.cityName} className="favorites__locations-items">
-                      <div className="favorites__locations locations locations--current">
-                        <div className="locations__item">
-                          <Link to='/' className="locations__item-link">
-                            <span>{cityFavs.cityName}</span>
-                          </Link>
+            {sortedFavs.length
+              ?
+              <section className="favorites">
+                <h1 className="favorites__title">Saved listing</h1>
+                <ul className="favorites__list">
+                  {
+                    sortedFavs.map((cityFavs) => (
+                      <li key={cityFavs.cityName} className="favorites__locations-items">
+                        <div className="favorites__locations locations locations--current">
+                          <div className="locations__item">
+                            <Link to='/' className="locations__item-link">
+                              <span>{cityFavs.cityName}</span>
+                            </Link>
+                          </div>
                         </div>
-                      </div>
-                      <div className="favorites__places">
-                        {
-                          cityFavs.items.map((cityFav) => (
-                            <PlaceListItem key={cityFav.id} place={cityFav} classPrefix='favorites'/>
-                          ))
-                        }
-                      </div>
-                    </li>)
-                  )
-                }
-              </ul>
-            </section>
+                        <div className="favorites__places">
+                          {
+                            cityFavs.items.map((cityFav) => (
+                              <PlaceListItem key={cityFav.id} place={cityFav} classPrefix='favorites'/>
+                            ))
+                          }
+                        </div>
+                      </li>)
+                    )
+                  }
+                </ul>
+              </section>
+              :
+              <section className="favorites favorites--empty">
+                <h1 className="visually-hidden">Favorites (empty)</h1>
+                <div className="favorites__status-wrapper">
+                  <b className="favorites__status">Nothing yet saved.</b>
+                  <p className="favorites__status-description">Save properties to narrow down search or plan your future trips.</p>
+                </div>
+              </section>}
           </div>
         </main>
         <footer className="footer container">

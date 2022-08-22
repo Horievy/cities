@@ -3,12 +3,14 @@ import {store} from '../store/index';
 import { City, Offer, Review, SortType } from './mainTypes';
 
 export type UserProcess = {
-  authorizationStatus: AuthorizationStatus
+  authorizationStatus: AuthorizationStatus,
+  userEmail?: string
 };
 
 export type AppData = {
   city: City,
   placesList: Offer[],
+  favoritePlaces: Offer[],
   sortType: SortType,
   isDataLoading: boolean,
   currentPlaceId: number,

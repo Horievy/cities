@@ -1,6 +1,5 @@
 import {AppRoute} from '../../const';
 import {Route, Routes} from 'react-router-dom';
-import {Offer} from '../../types/mainTypes';
 
 import Main from '../../pages/main/main';
 import Login from '../../pages/login/login';
@@ -14,11 +13,7 @@ import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
 import { getDataLoadingStatus } from '../../store/app-data/selectors';
 
-interface AppProps {
-  favoriteOffers: Offer[],
-}
-
-function App({favoriteOffers}: AppProps): JSX.Element {
+function App(): JSX.Element {
   const isDataLoading = useAppSelector(getDataLoadingStatus);
 
   if (isDataLoading) {
@@ -42,7 +37,7 @@ function App({favoriteOffers}: AppProps): JSX.Element {
           path={AppRoute.Favorites}
           element={
             <PrivateRoute>
-              <Favorites offers={favoriteOffers}/>
+              <Favorites/>
             </PrivateRoute>
           }
         />
