@@ -21,8 +21,7 @@ export default function HeaderNavUser() {
 
     dispatch(logoutAction());
   }
-  // eslint-disable-next-line no-console
-  console.log(userData?.avatarUrl);
+
   return (
     <ul className="header__nav-list">
       <li className="header__nav-item user">
