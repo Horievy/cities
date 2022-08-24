@@ -1,5 +1,6 @@
 import React from 'react';
 import Header from '../../components/header/header';
+import CitiesTabs from '../../components/cities-tabs/cities-tabs';
 
 export default function MainEmpty(): JSX.Element {
   return (
@@ -13,42 +14,7 @@ export default function MainEmpty(): JSX.Element {
 
         <main className="page__main page__main--index page__main--index-empty">
           <h1 className="visually-hidden">Cities</h1>
-          <div className="tabs">
-            <section className="locations container">
-              <ul className="locations__list tabs__list">
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="#tbd">
-                    <span>Paris</span>
-                  </a>
-                </li>
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="#tbd">
-                    <span>Cologne</span>
-                  </a>
-                </li>
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="#tbd">
-                    <span>Brussels</span>
-                  </a>
-                </li>
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href='#tbd'>
-                    <span>Amsterdam</span>
-                  </a>
-                </li>
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="#tbd">
-                    <span>Hamburg</span>
-                  </a>
-                </li>
-                <li className="locations__item">
-                  <a className="locations__item-link tabs__item tabs__item--active" href="#tbd">
-                    <span>Dusseldorf</span>
-                  </a>
-                </li>
-              </ul>
-            </section>
-          </div>
+          <CitiesTabs />
           <div className="cities">
             <div className="cities__places-container cities__places-container--empty container">
               <section className="cities__no-places">
@@ -65,5 +31,3 @@ export default function MainEmpty(): JSX.Element {
     </React.Fragment>
   );
 }
-
-

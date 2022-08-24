@@ -1,5 +1,6 @@
 import { AuthorizationStatus } from '../../const';
 import { useAppSelector } from '../../hooks/reduxHooks';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { Review } from '../../types/mainTypes';
 import ReviewItem from '../review-item/review-item';
 import ReviewsForm from '../reviews-form/reviews-form';
@@ -8,7 +9,7 @@ interface ReviewsProps {
   reviews: Review[],
 }
 export default function Reviews({reviews}: ReviewsProps) {
-  const {authorizationStatus} = useAppSelector((state) => state);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const isLoggedIn = authorizationStatus === AuthorizationStatus.Auth;
 
   return (

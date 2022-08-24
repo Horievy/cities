@@ -1,5 +1,3 @@
-import { AuthorizationStatus } from '../const';
-
 export type Offer = {
   bedrooms: number
   city: {
@@ -67,20 +65,7 @@ export interface SearchFunc {
   (place: Offer): void;
 }
 
-export type InitialState = {
-  city: City,
-  placesList: Offer[],
-  sortType: SortType,
-  isDataLoading: boolean,
-  authorizationStatus: AuthorizationStatus,
-  currentPlace?: Offer,
-  nearestPlaces?: Offer[],
-  reviews?: Review[],
-  currentPlaceId: number
-}
-
 export type SortType = 'Popular' | 'Price: low to high'|'Price: high to low'|'Top rated first';
-
 
 export type AuthData = {
   login: string;
@@ -88,12 +73,20 @@ export type AuthData = {
 }
 
 export type UserData = {
-  id: number;
-  email: string;
-  token: string;
+  avatarUrl: string
+  email: string
+  id: number
+  isPro: boolean
+  name: string
+  token: string
 }
 
 export type ReviewData = {
   rating: number;
   comment: string;
+}
+
+export type FavoriteData = {
+  placeId: number;
+  status: string;
 }

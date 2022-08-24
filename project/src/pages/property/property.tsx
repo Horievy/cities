@@ -7,7 +7,9 @@ import Reviews from '../../components/reviews/reviews';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { fetchNearestPlaces, fetchOffer, fetchReviews } from '../../store/api-actions';
 import Loader from '../../components/loader/loader';
-import { setPlaceId } from '../../store/action';
+import {setPlaceId } from '../../store/action';
+import { getCurrentPlace, getNearestPlaces, getReviews } from '../../store/app-data/selectors';
+import BookmarkBtn from '../../components/bookmark-btn/bookmark-btn';
 
 
 export default function Property(): JSX.Element {
@@ -15,8 +17,9 @@ export default function Property(): JSX.Element {
   const params = useParams();
   const id = Number(params.id) ?? 0;
 
-  const {currentPlace, nearestPlaces, reviews} = useAppSelector((state) => state);
-
+  const currentPlace = useAppSelector(getCurrentPlace);
+  const nearestPlaces = useAppSelector(getNearestPlaces);
+  const reviews = useAppSelector(getReviews);
 
   useEffect(() => {
     dispatch(setPlaceId(id));
@@ -27,10 +30,9 @@ export default function Property(): JSX.Element {
     dispatch(fetchReviews());
   }, [id]);
 
-  if(!currentPlace) {
+  if (!currentPlace) {
     return <Loader />;
   }
-
   const {images, bedrooms, description, goods, host:{isPro, avatarUrl, name}, isPremium, maxAdults, price, rating, title, type} = currentPlace;
   const imagesToRender = images.slice(0, 5);
 
@@ -65,12 +67,10 @@ export default function Property(): JSX.Element {
                   <h1 className="property__name">
                     {title}
                   </h1>
-                  <button className="property__bookmark-button button" type="button">
-                    <svg className="property__bookmark-icon" width="31" height="33">
-                      <use xlinkHref="#icon-bookmark"></use>
-                    </svg>
-                    <span className="visually-hidden">To bookmarks</span>
-                  </button>
+                  <BookmarkBtn
+                    placeId={id}
+                    classPrefix='property'
+                  />
                 </div>
                 <Rating rating={rating}
                   classPrefix='property'

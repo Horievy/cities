@@ -1,4 +1,4 @@
-import React, {useState } from 'react';
+import React, {useCallback, useState } from 'react';
 import Header from '../../components/header/header';
 import PlaceList from '../../components/place-list/place-list';
 import Map from '../../components/map/map';
@@ -7,9 +7,12 @@ import {useAppSelector} from '../../hooks/reduxHooks';
 import CitiesTabs from '../../components/cities-tabs/cities-tabs';
 import OffersSort from '../../components/offers-sort/offers-sort';
 import { getFilteredOffers, getSortedOffers } from '../../store/selectors';
+import { getCity, getSortType } from '../../store/app-data/selectors';
+import MainEmpty from '../main-empty/main-empty';
 
 export default function Main(): JSX.Element {
-  const {city} = useAppSelector((state) => state);
+  const city = useAppSelector(getCity);
+  const sortType = useAppSelector(getSortType);
   const cityOffers: Offer[] = useAppSelector(getFilteredOffers);
   const sortedOffers: Offer[] = useAppSelector(getSortedOffers);
 
@@ -24,8 +27,17 @@ export default function Main(): JSX.Element {
   });
   const [selectedOffer, setSelectedOffer] = useState<Offer>(cityOffers[0]);
 
-  function getSelectedOffer(place: Offer): void {
-    setSelectedOffer(place);
+  const getSelectedOffer = useCallback(
+    (place: Offer): void => {
+      setSelectedOffer(place);
+    },
+    [sortType]
+  );
+
+  if (!cityOffers.length) {
+    return (
+      <MainEmpty/>
+    );
   }
 
   return (

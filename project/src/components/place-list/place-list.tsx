@@ -1,3 +1,4 @@
+import React from 'react';
 import {Offer, SearchFunc} from '../../types/mainTypes';
 import PlaceListItem from '../place-list-item/place-list-item';
 
@@ -7,7 +8,7 @@ interface PlaceLisProps {
   getSelectedOffer?: SearchFunc
 }
 
-export default function PlaceList({classPrefix, placesList, getSelectedOffer}: PlaceLisProps) {
+function PlaceList({classPrefix, placesList, getSelectedOffer}: PlaceLisProps) {
   return (
     <div className={`${classPrefix}__places-list places__list`}>
       {
@@ -21,3 +22,5 @@ export default function PlaceList({classPrefix, placesList, getSelectedOffer}: P
     </div>
   );
 }
+
+export default React.memo(PlaceList);

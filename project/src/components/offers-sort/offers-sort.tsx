@@ -3,9 +3,11 @@ import { SORT_OPTIONS } from '../../const';
 import { changeSortType } from '../../store/action';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { SortType } from '../../types/mainTypes';
+import React from 'react';
+import { getSortType } from '../../store/app-data/selectors';
 
-export default function OffersSort() {
-  const {sortType} = useAppSelector((state) => state);
+function OffersSort() {
+  const sortType = useAppSelector(getSortType);
   const dispatch = useAppDispatch();
 
   const [filterOpenstate, setFilterState] = useState(false);
@@ -15,7 +17,7 @@ export default function OffersSort() {
   }
 
   function onFilterSelection(sortOption: SortType) {
-    dispatch(changeSortType({sortType: sortOption}));
+    dispatch(changeSortType(sortOption));
   }
 
   return (
@@ -40,3 +42,5 @@ export default function OffersSort() {
     </form>
   );
 }
+
+export default React.memo(OffersSort);
