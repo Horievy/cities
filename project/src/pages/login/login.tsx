@@ -1,16 +1,24 @@
 
 import React, { FormEvent, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Header from '../../components/header/header';
-import { useAppDispatch } from '../../hooks/reduxHooks';
+import {AppRoute, AuthorizationStatus } from '../../const';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { loginAction } from '../../store/api-actions';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { AuthData } from '../../types/mainTypes';
 
 export default function Login(): JSX.Element {
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  if (authorizationStatus === AuthorizationStatus.Auth) {
+    navigate(AppRoute.Main);
+  }
+
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
-
-  const dispatch = useAppDispatch();
 
   const onSubmit = async (authData: AuthData) => {
     await dispatch(loginAction(authData));

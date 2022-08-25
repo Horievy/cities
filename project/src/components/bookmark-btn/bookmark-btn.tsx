@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { APIRoute, AuthorizationStatus } from '../../const';
+import {AppRoute, AuthorizationStatus } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { toggleFavorite } from '../../store/api-actions';
 import { getFavoritePlacesList } from '../../store/app-data/selectors';
@@ -19,7 +19,7 @@ function BookmarkBtn({classPrefix, placeId}: {classPrefix: string, placeId: numb
 
   function handleClick() {
     if (!isAuthorized) {
-      navigate(APIRoute.Login);
+      navigate(AppRoute.Login);
     }
 
     const status = String(Number(!isFavorite));
