@@ -5,7 +5,7 @@ import { getCity, getPlacesList, getSortType } from './app-data/selectors';
 
 export const getFilteredOffers = createSelector(
   [getPlacesList, getCity],
-  (places:Offer[], city: City) => places.filter((place) => place.city.name === city.title)
+  (places:Offer[], city: City) => places.filter((place) => place.city.name === city.name)
 );
 
 export const getSortedOffers = createSelector(

@@ -13,10 +13,10 @@ export default function CityTab({cityName}: CityTabProps) {
   const dispatch = useAppDispatch();
   const city = useAppSelector(getCity);
 
-  const isActive = city.title === cityName;
+  const isActive = city.name === cityName;
 
   function clickHandler() {
-    const activeCity: City = CITIES.find((item) => item.title === cityName) || CITIES[0];
+    const activeCity: City = CITIES.find((item) => item.name === cityName) || CITIES[0];
 
     dispatch(changeCity(activeCity));
   }

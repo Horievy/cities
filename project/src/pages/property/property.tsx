@@ -10,6 +10,9 @@ import Loader from '../../components/loader/loader';
 import {setPlaceId } from '../../store/action';
 import { getCurrentPlace, getNearestPlaces, getReviews } from '../../store/app-data/selectors';
 import BookmarkBtn from '../../components/bookmark-btn/bookmark-btn';
+import Map from '../../components/map/map';
+import { getMapPoints } from '../../utils/helpers';
+import { Offer, Points } from '../../types/mainTypes';
 
 
 export default function Property(): JSX.Element {
@@ -18,8 +21,11 @@ export default function Property(): JSX.Element {
   const id = Number(params.id) ?? 0;
 
   const currentPlace = useAppSelector(getCurrentPlace);
-  const nearestPlaces = useAppSelector(getNearestPlaces);
+  const nearestPlaces = useAppSelector(getNearestPlaces) as Offer[];
   const reviews = useAppSelector(getReviews);
+
+  const placesList = nearestPlaces && [...nearestPlaces, currentPlace] as Offer[];
+  const points: Points = placesList && getMapPoints(placesList);
 
   useEffect(() => {
     dispatch(setPlaceId(id));
@@ -33,8 +39,8 @@ export default function Property(): JSX.Element {
   if (!currentPlace) {
     return <Loader />;
   }
-  const {images, bedrooms, description, goods, host:{isPro, avatarUrl, name}, isPremium, maxAdults, price, rating, title, type} = currentPlace;
-  const imagesToRender = images.slice(0, 5);
+  const {images, bedrooms, description, goods, host:{isPro, avatarUrl, name}, isPremium, maxAdults, price, rating, title, type, city} = currentPlace;
+  const imagesToRender = images.slice(0, 6);
 
   return (
     <React.Fragment>
@@ -123,7 +129,9 @@ export default function Property(): JSX.Element {
                 {reviews ? <Reviews reviews={reviews}/> : <p>No reviews yet</p>}
               </div>
             </div>
-            <section className="property__map map"></section>
+            <section className="property__map map">
+              <Map city={city} points={points} selectedPoint={currentPlace}/>
+            </section>
           </section>
           <div className="container">
             <section className="near-places places">

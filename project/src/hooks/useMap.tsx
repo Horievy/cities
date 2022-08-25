@@ -9,8 +9,10 @@ function useMap(
   const [map, setMap] = useState<Map | null>(null);
 
   useEffect(() => {
+    const {location} = city;
+
     if (map) {
-      map.setView([city.latitude, city.longitude], 12);
+      map.setView([location.latitude, location.longitude], 12);
 
       return;
     }
@@ -19,8 +21,8 @@ function useMap(
 
       const instance = new Map(mapRef.current, {
         center: {
-          lat: city.latitude,
-          lng: city.longitude
+          lat: location.latitude,
+          lng: location.longitude
         },
         zoom: 12
       });
