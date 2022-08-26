@@ -19,3 +19,5 @@ export const getCity = (state: State): City => state[NameSpace.Data].city;
 export const getSortType = (state: State): SortType => state[NameSpace.Data].sortType;
 
 export const getDataLoadingStatus = (state: State): boolean => state[NameSpace.Data].isDataLoading;
+
+export const getErrorMessage = (state: State): string |null => state[NameSpace.Data].error;

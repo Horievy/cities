@@ -17,7 +17,7 @@ export default function Main(): JSX.Element {
   const cityOffers: Offer[] = useAppSelector(getFilteredOffers);
   const sortedOffers: Offer[] = useAppSelector(getSortedOffers);
 
-  const points:Points = getMapPoints(cityOffers);
+  const points:Points = cityOffers && getMapPoints(cityOffers);
   const [selectedOffer, setSelectedOffer] = useState<Offer>(cityOffers[0]);
 
   const getSelectedOffer = useCallback(

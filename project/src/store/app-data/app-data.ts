@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {changeCity, changeSortType, setPlaceId} from '../action';
+import {changeCity, changeSortType, setError, setPlaceId} from '../action';
 import {CITIES, NameSpace } from '../../const';
 import { AppData } from '../../types/state';
 import { addReview, fetchFavorites, fetchNearestPlaces, fetchOffer, fetchPlaces, fetchReviews } from '../api-actions';
@@ -10,7 +10,8 @@ export const initialState: AppData = {
   sortType: 'Popular',
   isDataLoading: false,
   currentPlaceId: 0,
-  favoritePlaces: []
+  favoritePlaces: [],
+  error: null,
 };
 
 export const appData = createSlice({
@@ -52,6 +53,9 @@ export const appData = createSlice({
       })
       .addCase(fetchFavorites.fulfilled, (state, action) => {
         state.favoritePlaces = action.payload;
+      })
+      .addCase(setError, (state, action) => {
+        state.error = action.payload;
       });
   }
 });

@@ -5,10 +5,10 @@ import PlaceList from '../../components/place-list/place-list';
 import Rating from '../../components/rating/rating';
 import Reviews from '../../components/reviews/reviews';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
-import { fetchNearestPlaces, fetchOffer, fetchReviews } from '../../store/api-actions';
+import { fetchNearestPlaces, fetchOffer } from '../../store/api-actions';
 import Loader from '../../components/loader/loader';
 import {setPlaceId } from '../../store/action';
-import { getCurrentPlace, getNearestPlaces, getReviews } from '../../store/app-data/selectors';
+import { getCurrentPlace, getNearestPlaces } from '../../store/app-data/selectors';
 import BookmarkBtn from '../../components/bookmark-btn/bookmark-btn';
 import Map from '../../components/map/map';
 import { getMapPoints } from '../../utils/helpers';
@@ -20,11 +20,10 @@ export default function Property(): JSX.Element {
   const params = useParams();
   const id = Number(params.id) ?? 0;
 
-  const currentPlace = useAppSelector(getCurrentPlace);
+  const currentPlace = useAppSelector(getCurrentPlace) as Offer;
   const nearestPlaces = useAppSelector(getNearestPlaces) as Offer[];
-  const reviews = useAppSelector(getReviews);
 
-  const placesList = nearestPlaces && [...nearestPlaces, currentPlace] as Offer[];
+  const placesList = nearestPlaces && currentPlace && [...nearestPlaces, currentPlace] as Offer[];
   const points: Points = placesList && getMapPoints(placesList);
 
   useEffect(() => {
@@ -33,7 +32,6 @@ export default function Property(): JSX.Element {
 
     dispatch(fetchOffer());
     dispatch(fetchNearestPlaces());
-    dispatch(fetchReviews());
   }, [id]);
 
   if (!currentPlace) {
@@ -126,7 +124,7 @@ export default function Property(): JSX.Element {
                     </p>
                   </div>
                 </div>
-                {reviews ? <Reviews reviews={reviews}/> : <p>No reviews yet</p>}
+                <Reviews/>
               </div>
             </div>
             <section className="property__map map">

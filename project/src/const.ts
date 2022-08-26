@@ -88,3 +88,5 @@ export enum NameSpace {
   Data = 'DATA',
   User = 'USER'
 }
+
+export const TIMEOUT_SHOW_ERROR = 2000;

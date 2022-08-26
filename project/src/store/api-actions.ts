@@ -1,8 +1,8 @@
 import {AxiosInstance} from 'axios';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AppDispatch, State} from '../types/state.js';
-import {redirectToRoute} from './action';
-import {APIRoute, AppRoute, NameSpace} from '../const';
+import {redirectToRoute, setError} from './action';
+import {APIRoute, AppRoute, NameSpace, TIMEOUT_SHOW_ERROR} from '../const';
 import { AuthData, FavoriteData, Offer, Review, ReviewData, UserData } from '../types/mainTypes.js';
 import {saveToken, dropToken} from '../services/token';
 
@@ -73,7 +73,7 @@ export const addReview = createAsyncThunk<Review[], ReviewData, {
   async ({rating, comment}, {dispatch, getState, extra: api}) => {
     const id = getState()[NameSpace.Data].currentPlaceId;
 
-    const {data} = await api.post<Review[]>(`${APIRoute.Reviews}${id}`, {rating, comment});
+    const {data} = await api.post<Review[]>(`${APIRoute.Reviews}/asd${id}`, {rating, comment});
     return data;
   },
 );
@@ -140,5 +140,19 @@ export const fetchFavorites = createAsyncThunk<Offer[], undefined, {
   async (_arg, {dispatch, extra: api}) => {
     const {data} = await api.get<Offer[]>(APIRoute.Favorite);
     return data;
+  }
+);
+
+export const clearErrorAction = createAsyncThunk<void, undefined, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'data/clearError',
+  async (_arg, {dispatch, extra: api}) => {
+    setTimeout(
+      () => dispatch(setError(null)),
+      TIMEOUT_SHOW_ERROR,
+    );
   }
 );
