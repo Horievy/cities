@@ -1,5 +1,5 @@
 
-import React, { FormEvent, useRef } from 'react';
+import React, { FormEvent, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Header from '../../components/header/header';
 import {AppRoute, AuthorizationStatus } from '../../const';
@@ -9,6 +9,7 @@ import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { AuthData } from '../../types/mainTypes';
 
 export default function Login(): JSX.Element {
+  const [valid, setValidStatus] = useState(true);
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -21,8 +22,18 @@ export default function Login(): JSX.Element {
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
   const onSubmit = async (authData: AuthData) => {
-    await dispatch(loginAction(authData));
+    if (!isValidPass(authData.password)) {
+      setValidStatus(false);
+
+      return;
+    }
+
+    dispatch(loginAction(authData));
   };
+
+  function isValidPass(pas: string): RegExpMatchArray | null {
+    return pas.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{4,}$/);
+  }
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -69,6 +80,7 @@ export default function Login(): JSX.Element {
                     required
                   />
                 </div>
+                {!valid && <p style={{color: 'red', fontSize: '0.85em',margin: '0 0 10px'}}>Password should be minimum 4 characters length, contains at least one character and one number.</p>}
                 <button className="login__submit form__submit button" type="submit">Sign in</button>
               </form>
             </section>
