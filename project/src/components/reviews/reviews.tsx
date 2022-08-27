@@ -15,7 +15,15 @@ export default function Reviews() {
   const reviews = useAppSelector(getReviews)?.slice(0, 10);
 
   useEffect(() => {
-    dispatch(fetchReviews());
+    let isMounted = true;
+
+    if (isMounted) {
+      dispatch(fetchReviews());
+    }
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const sortedReviews = reviews && reviews.sort(({date},{date: date2}) => Date.parse(date2) - Date.parse(date));

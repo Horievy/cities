@@ -14,10 +14,18 @@ export default function ReviewsForm() {
   const [disabled, setDisabled] = useState(true);
 
   useEffect(() => {
-    isReadyForSubmit(formData);
+    let isMounted = true;
+
+    if (isMounted) {
+      isReadyForSubmit(formData);
+    }
+
+    return () => {
+      isMounted = false;
+    };
   });
 
-  function handleSubmit(e:React.SyntheticEvent): void {
+  function handleFormSubmit(e:React.SyntheticEvent): void {
     e.preventDefault();
 
     dispatch(addReview(formData));
@@ -33,7 +41,7 @@ export default function ReviewsForm() {
     }
   }
 
-  function onFormChange(e:React.SyntheticEvent): void {
+  function handleFormChange(e:React.SyntheticEvent): void {
     const target = e.target as HTMLInputElement;
 
     target.checked
@@ -48,7 +56,7 @@ export default function ReviewsForm() {
   }
 
   return (
-    <form onChange={onFormChange} onSubmit={handleSubmit} className="reviews__form form" action="#" method="post">
+    <form onChange={handleFormChange} onSubmit={handleFormSubmit} className="reviews__form form" action="#" method="post">
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
         <input className="form__rating-input visually-hidden" name="rating" value="5" id="5-stars" type="radio" />
@@ -86,7 +94,7 @@ export default function ReviewsForm() {
           </svg>
         </label>
       </div>
-      <textarea className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved" onChange={onFormChange} value={formData.comment}/>
+      <textarea className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved" onChange={handleFormChange} value={formData.comment}/>
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
         To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay in range between <b className="reviews__text-amount">50 and 300 characters</b>.

@@ -35,7 +35,7 @@ export default function Login(): JSX.Element {
     return pas.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{4,}$/);
   }
 
-  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
     if (loginRef.current !== null && passwordRef.current !== null) {
@@ -58,7 +58,7 @@ export default function Login(): JSX.Element {
           <div className="page__login-container container">
             <section className="login">
               <h1 className="login__title">Sign in</h1>
-              <form className="login__form form" onSubmit={handleSubmit}>
+              <form className="login__form form" onSubmit={handleFormSubmit}>
                 <div className="login__input-wrapper form__input-wrapper">
                   <label className="visually-hidden">E-mail</label>
                   <input

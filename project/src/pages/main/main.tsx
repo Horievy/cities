@@ -20,7 +20,7 @@ export default function Main(): JSX.Element {
   const points:Points = cityOffers && getMapPoints(cityOffers);
   const [selectedOffer, setSelectedOffer] = useState<Offer>(cityOffers[0]);
 
-  const getSelectedOffer = useCallback(
+  const onPlaceItemHover = useCallback(
     (place: Offer): void => {
       setSelectedOffer(place);
     },
@@ -66,7 +66,7 @@ export default function Main(): JSX.Element {
                 <h2 className='visually-hidden'>Places</h2>
                 <b className='places__found'>{cityOffers.length} place(s) to stay in {city.name}</b>
                 <OffersSort/>
-                <PlaceList placesList={sortedOffers} getSelectedOffer={getSelectedOffer} classPrefix='cities'/>
+                <PlaceList placesList={sortedOffers} onPlaceItemHover={onPlaceItemHover} classPrefix='cities'/>
               </section>
               <div className='cities__right-section'>
                 <section className='cities__map map'>

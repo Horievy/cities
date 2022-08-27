@@ -27,11 +27,19 @@ export default function Property(): JSX.Element {
   const points: Points = placesList && getMapPoints(placesList);
 
   useEffect(() => {
-    dispatch(setPlaceId(id));
-    window.scrollTo(0, 0);
+    let isMounted = true;
 
-    dispatch(fetchOffer());
-    dispatch(fetchNearestPlaces());
+    if (isMounted) {
+      dispatch(setPlaceId(id));
+      window.scrollTo(0, 0);
+
+      dispatch(fetchOffer());
+      dispatch(fetchNearestPlaces());
+    }
+
+    return () => {
+      isMounted = false;
+    };
   }, [id]);
 
   if (!currentPlace) {

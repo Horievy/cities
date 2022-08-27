@@ -15,14 +15,14 @@ export default function CityTab({cityName}: CityTabProps) {
 
   const isActive = city.name === cityName;
 
-  function clickHandler() {
+  function handleCityclick() {
     const activeCity: City = CITIES.find((item) => item.name === cityName) || CITIES[0];
 
     dispatch(changeCity(activeCity));
   }
 
   return (
-    <li onClick={clickHandler} className='locations__item'>
+    <li onClick={handleCityclick} className='locations__item'>
       <Link to={`#${cityName.toLowerCase()}`} className={`locations__item-link tabs__item ${isActive ? 'tabs__item--active' : ''}`}>
         <span>{cityName}</span>
       </Link>

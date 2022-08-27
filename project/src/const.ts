@@ -65,8 +65,10 @@ export const CITIES: City[] = [
   }
 ];
 
-export const URL_MARKER_DEFAULT = 'img/pin.svg';
-export const URL_MARKER_CURRENT = 'img/pin-active.svg';
+export enum UrlMarker {
+  Default = 'img/pin.svg',
+  Current = 'img/pin-active.svg'
+}
 
 export const SORT_OPTIONS: SortType[] = [
   'Price: low to high',
@@ -90,3 +92,5 @@ export enum NameSpace {
 }
 
 export const TIMEOUT_SHOW_ERROR = 2000;
+
+export const MAX_RATING = 5;
