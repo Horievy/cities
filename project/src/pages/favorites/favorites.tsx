@@ -6,7 +6,6 @@ import { useAppSelector } from '../../hooks/reduxHooks';
 import { getFavoritePlacesList } from '../../store/app-data/selectors';
 import { Offer } from '../../types/mainTypes';
 
-
 interface SortedFav {
   cityName: string,
   items: Offer[]
@@ -86,5 +85,3 @@ export default function Favorites(): JSX.Element {
     </React.Fragment>
   );
 }
-
-

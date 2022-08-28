@@ -16,45 +16,59 @@ export enum AuthorizationStatus {
 
 export const CITIES: City[] = [
   {
-    title: 'Paris',
-    latitude: 48.85661,
-    longitude: 2.351499,
-    zoom: 13
+    location: {
+      latitude: 48.85661,
+      longitude: 2.351499,
+      zoom: 13
+    },
+    name: 'Paris'
   },
   {
-    title: 'Cologne',
-    latitude: 50.938361,
-    longitude: 6.959974,
-    zoom: 13
+    location: {
+      latitude: 50.938361,
+      longitude: 6.959974,
+      zoom: 13
+    },
+    name: 'Cologne'
   },
   {
-    title: 'Brussels',
-    latitude: 50.846557,
-    longitude: 4.351697,
-    zoom: 13
+    location: {
+      latitude: 50.846557,
+      longitude: 4.351697,
+      zoom: 13
+    },
+    name: 'Brussels'
   },
   {
-    title: 'Amsterdam',
-    latitude: 52.37454,
-    longitude: 4.897976,
-    zoom: 13
+    location: {
+      latitude: 52.37454,
+      longitude: 4.897976,
+      zoom: 13
+    },
+    name: 'Amsterdam'
   },
   {
-    title: 'Hamburg',
-    latitude: 53.550341,
-    longitude: 10.000654,
-    zoom: 13
+    location: {
+      latitude: 53.550341,
+      longitude: 10.000654,
+      zoom: 13
+    },
+    name: 'Hamburg'
   },
   {
-    title: 'Dusseldorf',
-    latitude: 51.225402,
-    longitude: 6.776314,
-    zoom: 13
+    location: {
+      latitude: 51.225402,
+      longitude: 6.776314,
+      zoom: 13
+    },
+    name: 'Dusseldorf'
   }
 ];
 
-export const URL_MARKER_DEFAULT = 'img/pin.svg';
-export const URL_MARKER_CURRENT = 'img/pin-active.svg';
+export enum UrlMarker {
+  Default = 'img/pin.svg',
+  Current = 'img/pin-active.svg'
+}
 
 export const SORT_OPTIONS: SortType[] = [
   'Price: low to high',
@@ -76,3 +90,7 @@ export enum NameSpace {
   Data = 'DATA',
   User = 'USER'
 }
+
+export const TIMEOUT_SHOW_ERROR = 2000;
+
+export const MAX_RATING = 5;

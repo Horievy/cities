@@ -47,29 +47,31 @@ export type Review = {
 }
 
 export type City = {
-  title: string;
-  latitude: number;
-  longitude: number;
-  zoom: number;
+  location: {
+    latitude: number
+    longitude: number
+    zoom: number
+    }
+    name: string
 };
 
 export type Point = {
-  title: string;
-  latitude: number;
-  longitude: number;
+  title: string
+  latitude: number
+  longitude: number
 };
 
 export type Points = Point[];
 
 export interface SearchFunc {
-  (place: Offer): void;
+  (place: Offer): void
 }
 
 export type SortType = 'Popular' | 'Price: low to high'|'Price: high to low'|'Top rated first';
 
 export type AuthData = {
-  login: string;
-  password: string;
+  login: string
+  password: string
 }
 
 export type UserData = {
@@ -82,11 +84,11 @@ export type UserData = {
 }
 
 export type ReviewData = {
-  rating: number;
-  comment: string;
+  rating: number
+  comment: string
 }
 
 export type FavoriteData = {
-  placeId: number;
-  status: string;
+  placeId: number
+  status: string
 }

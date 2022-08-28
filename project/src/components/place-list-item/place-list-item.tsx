@@ -7,16 +7,16 @@ import BookmarkBtn from '../bookmark-btn/bookmark-btn';
 interface PlaceListItemProps {
   place: Offer,
   classPrefix: string,
-  getSelectedOffer?: SearchFunc
+  onPlaceItemHover?: SearchFunc
 }
 
-export default function PlaceListItem({place, classPrefix, getSelectedOffer}:PlaceListItemProps) {
+export default function PlaceListItem({place, classPrefix, onPlaceItemHover}:PlaceListItemProps) {
   const routeLink:string = AppRoute.Room.replace(':id', place.id.toString());
   const navigate = useNavigate();
 
   const {isPremium, price, rating, title, type, previewImage} = place ;
 
-  function handleClick(e: React.MouseEvent<HTMLElement>) {
+  function handlePlaceItemClick(e: React.MouseEvent<HTMLElement>) {
     const target = e.target as HTMLElement;
 
     if (!target.closest('.place-card__bookmark-button')) {
@@ -24,14 +24,14 @@ export default function PlaceListItem({place, classPrefix, getSelectedOffer}:Pla
     }
   }
 
-  function handleHover() {
-    getSelectedOffer && getSelectedOffer(place);
+  function handlePlaceItemHover() {
+    onPlaceItemHover && onPlaceItemHover(place);
   }
 
   return (
     <article className={`${classPrefix}__card place-card`}
-      onClick={handleClick}
-      onMouseEnter={handleHover}
+      onClick={handlePlaceItemClick}
+      onMouseEnter={handlePlaceItemHover}
     >
       {
         isPremium &&

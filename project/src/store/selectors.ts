@@ -5,7 +5,7 @@ import { getCity, getPlacesList, getSortType } from './app-data/selectors';
 
 export const getFilteredOffers = createSelector(
   [getPlacesList, getCity],
-  (places:Offer[], city: City) => places.filter((place) => place.city.name === city.title)
+  (places:Offer[], city: City) => places.filter((place) => place.city.name === city.name)
 );
 
 export const getSortedOffers = createSelector(
@@ -13,7 +13,7 @@ export const getSortedOffers = createSelector(
   (filteredOffers: Offer[], sortType: SortType) => {
     switch (sortType) {
       case 'Popular':
-        return filteredOffers;
+        return filteredOffers.sort((a, b) => a.id - b.id);
       case 'Price: low to high':
         return filteredOffers.sort((a, b) => a.price - b.price);
       case 'Price: high to low':
@@ -21,7 +21,7 @@ export const getSortedOffers = createSelector(
       case 'Top rated first':
         return filteredOffers.sort((a, b) => b.rating - a.rating);
       default:
-        return filteredOffers;
+        return filteredOffers.sort((a, b) => a.id - b.id);
     }
   }
 );

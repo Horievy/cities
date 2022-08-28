@@ -13,16 +13,16 @@ export default function CityTab({cityName}: CityTabProps) {
   const dispatch = useAppDispatch();
   const city = useAppSelector(getCity);
 
-  const isActive = city.title === cityName;
+  const isActive = city.name === cityName;
 
-  function clickHandler() {
-    const activeCity: City = CITIES.find((item) => item.title === cityName) || CITIES[0];
+  function handleCityclick() {
+    const activeCity: City = CITIES.find((item) => item.name === cityName) || CITIES[0];
 
     dispatch(changeCity(activeCity));
   }
 
   return (
-    <li onClick={clickHandler} className='locations__item'>
+    <li onClick={handleCityclick} className='locations__item'>
       <Link to={`#${cityName.toLowerCase()}`} className={`locations__item-link tabs__item ${isActive ? 'tabs__item--active' : ''}`}>
         <span>{cityName}</span>
       </Link>

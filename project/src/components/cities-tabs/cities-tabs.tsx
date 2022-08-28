@@ -11,8 +11,8 @@ function CitiesTabs() {
           {
             CITIES.map((city) => (
               <CityTab
-                key={city.title}
-                cityName={city.title}
+                key={city.name}
+                cityName={city.name}
               />
             ))
           }

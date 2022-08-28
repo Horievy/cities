@@ -12,7 +12,7 @@ function OffersSort() {
 
   const [filterOpenstate, setFilterState] = useState(false);
 
-  function handleOpenState() {
+  function handleSortClick() {
     setFilterState(!filterOpenstate);
   }
 
@@ -21,7 +21,7 @@ function OffersSort() {
   }
 
   return (
-    <form onClick={handleOpenState} className='places__sorting' action='#' method='get'>
+    <form onClick={handleSortClick} className='places__sorting' action='#' method='get'>
       <span className='places__sorting-caption'>Sort by</span>
       <span className='places__sorting-type' tabIndex={0}>
         {sortType}

@@ -1,4 +1,4 @@
-
+import { MAX_RATING } from '../../const';
 
 interface MainProps {
   rating: number,
@@ -7,9 +7,8 @@ interface MainProps {
 }
 
 export default function Rating({rating, classPrefix, isRatingValue}: MainProps) {
-  const MAX_RATING = 5;
-
   const ratingInPercents = Math.round(rating) / MAX_RATING * 100;
+
   return (
     <div className={`${classPrefix}__rating rating`}>
       <div className={`${classPrefix}__stars rating__stars`}>

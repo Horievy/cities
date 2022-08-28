@@ -12,11 +12,19 @@ export default function HeaderNavUser() {
   const favoritesAmount = useAppSelector(getFavoritePlacesList).length;
 
   useEffect(() => {
-    dispatch(fetchFavorites());
+    let isMounted = true;
+
+    if (isMounted) {
+      dispatch(fetchFavorites());
+    }
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
 
-  function logOut(e:React.MouseEvent<HTMLAnchorElement>) {
+  function handleLogoutclick(e:React.MouseEvent<HTMLAnchorElement>) {
     e.preventDefault();
 
     dispatch(logoutAction());
@@ -36,7 +44,7 @@ export default function HeaderNavUser() {
         </Link>
       </li>
       <li className="header__nav-item">
-        <a href='#logout' className="header__nav-link" onClick={logOut}>
+        <a href='#logout' className="header__nav-link" onClick={handleLogoutclick}>
           <span className="header__signout">Sign out</span>
         </a>
       </li>

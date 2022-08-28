@@ -2,13 +2,14 @@ import React, {useCallback, useState } from 'react';
 import Header from '../../components/header/header';
 import PlaceList from '../../components/place-list/place-list';
 import Map from '../../components/map/map';
-import {Offer} from '../../types/mainTypes';
+import {Offer, Points} from '../../types/mainTypes';
 import {useAppSelector} from '../../hooks/reduxHooks';
 import CitiesTabs from '../../components/cities-tabs/cities-tabs';
 import OffersSort from '../../components/offers-sort/offers-sort';
 import { getFilteredOffers, getSortedOffers } from '../../store/selectors';
 import { getCity, getSortType } from '../../store/app-data/selectors';
 import MainEmpty from '../main-empty/main-empty';
+import { getMapPoints } from '../../utils/helpers';
 
 export default function Main(): JSX.Element {
   const city = useAppSelector(getCity);
@@ -16,18 +17,10 @@ export default function Main(): JSX.Element {
   const cityOffers: Offer[] = useAppSelector(getFilteredOffers);
   const sortedOffers: Offer[] = useAppSelector(getSortedOffers);
 
-  const points = cityOffers.map((offer) => {
-    const {title, location: {latitude, longitude}} = offer;
-
-    return {
-      title,
-      latitude,
-      longitude
-    };
-  });
+  const points:Points = cityOffers && getMapPoints(cityOffers);
   const [selectedOffer, setSelectedOffer] = useState<Offer>(cityOffers[0]);
 
-  const getSelectedOffer = useCallback(
+  const onPlaceItemHover = useCallback(
     (place: Offer): void => {
       setSelectedOffer(place);
     },
@@ -71,9 +64,9 @@ export default function Main(): JSX.Element {
             <div className='cities__places-container container'>
               <section className='cities__places places'>
                 <h2 className='visually-hidden'>Places</h2>
-                <b className='places__found'>{cityOffers.length} place(s) to stay in {city.title}</b>
+                <b className='places__found'>{cityOffers.length} place(s) to stay in {city.name}</b>
                 <OffersSort/>
-                <PlaceList placesList={sortedOffers} getSelectedOffer={getSelectedOffer} classPrefix='cities'/>
+                <PlaceList placesList={sortedOffers} onPlaceItemHover={onPlaceItemHover} classPrefix='cities'/>
               </section>
               <div className='cities__right-section'>
                 <section className='cities__map map'>

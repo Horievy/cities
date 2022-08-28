@@ -1,22 +1,41 @@
 
-import React, { FormEvent, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import React, { FormEvent, useRef, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import Header from '../../components/header/header';
-import { useAppDispatch } from '../../hooks/reduxHooks';
+import {AppRoute, AuthorizationStatus } from '../../const';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { loginAction } from '../../store/api-actions';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { AuthData } from '../../types/mainTypes';
 
 export default function Login(): JSX.Element {
+  const [valid, setValidStatus] = useState(true);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  if (authorizationStatus === AuthorizationStatus.Auth) {
+    navigate(AppRoute.Main);
+  }
+
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
-  const dispatch = useAppDispatch();
-
   const onSubmit = async (authData: AuthData) => {
-    await dispatch(loginAction(authData));
+    if (!isValidPass(authData.password)) {
+      setValidStatus(false);
+
+      return;
+    }
+
+    dispatch(loginAction(authData));
   };
 
-  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+  function isValidPass(pas: string): RegExpMatchArray | null {
+    return pas.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{4,}$/);
+  }
+
+  const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
     if (loginRef.current !== null && passwordRef.current !== null) {
@@ -39,7 +58,7 @@ export default function Login(): JSX.Element {
           <div className="page__login-container container">
             <section className="login">
               <h1 className="login__title">Sign in</h1>
-              <form className="login__form form" onSubmit={handleSubmit}>
+              <form className="login__form form" onSubmit={handleFormSubmit}>
                 <div className="login__input-wrapper form__input-wrapper">
                   <label className="visually-hidden">E-mail</label>
                   <input
@@ -61,6 +80,7 @@ export default function Login(): JSX.Element {
                     required
                   />
                 </div>
+                {!valid && <p style={{color: 'red', fontSize: '0.85em',margin: '0 0 10px'}}>Password should be minimum 4 characters length, contains at least one character and one number.</p>}
                 <button className="login__submit form__submit button" type="submit">Sign in</button>
               </form>
             </section>

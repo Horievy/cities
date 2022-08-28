@@ -3,7 +3,7 @@ import {Icon, Marker} from 'leaflet';
 import useMap from '../../hooks/useMap';
 import {City, Offer, Points} from '../../types/mainTypes';
 import 'leaflet/dist/leaflet.css';
-import { URL_MARKER_CURRENT, URL_MARKER_DEFAULT } from '../../const';
+import { UrlMarker } from '../../const';
 
 type MapProps = {
   city: City;
@@ -12,13 +12,13 @@ type MapProps = {
 };
 
 const defaultCustomIcon = new Icon({
-  iconUrl: URL_MARKER_DEFAULT,
+  iconUrl: UrlMarker.Default,
   iconSize: [30, 50],
   iconAnchor: [30, 50]
 });
 
 const currentCustomIcon = new Icon({
-  iconUrl: URL_MARKER_CURRENT,
+  iconUrl: UrlMarker.Current,
   iconSize: [30, 50],
   iconAnchor: [30, 50]
 });
@@ -32,22 +32,30 @@ function Map(props: MapProps): JSX.Element {
   const map = useMap(mapRef, city);
 
   useEffect(() => {
-    if (map) {
-      points.forEach((point) => {
-        const marker = new Marker({
-          lat: point.latitude,
-          lng: point.longitude
-        });
+    let isMounted = true;
 
-        marker
-          .setIcon(
-            selectedPoint !== undefined && (point.latitude === selectedPointLat && point.longitude === selectedPointLong)
-              ? currentCustomIcon
-              : defaultCustomIcon
-          )
-          .addTo(map);
-      });
+    if (isMounted) {
+      if (map) {
+        points.forEach((point) => {
+          const marker = new Marker({
+            lat: point.latitude,
+            lng: point.longitude
+          });
+
+          marker
+            .setIcon(
+              selectedPoint !== undefined && (point.latitude === selectedPointLat && point.longitude === selectedPointLong)
+                ? currentCustomIcon
+                : defaultCustomIcon
+            )
+            .addTo(map);
+        });
+      }
     }
+
+    return () => {
+      isMounted = false;
+    };
   }, [map, points, selectedPoint]);
 
   return <div style={{height: '100%', width: '100%'}} ref={mapRef}></div>;

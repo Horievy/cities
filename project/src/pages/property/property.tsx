@@ -5,11 +5,14 @@ import PlaceList from '../../components/place-list/place-list';
 import Rating from '../../components/rating/rating';
 import Reviews from '../../components/reviews/reviews';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
-import { fetchNearestPlaces, fetchOffer, fetchReviews } from '../../store/api-actions';
+import { fetchNearestPlaces, fetchOffer } from '../../store/api-actions';
 import Loader from '../../components/loader/loader';
 import {setPlaceId } from '../../store/action';
-import { getCurrentPlace, getNearestPlaces, getReviews } from '../../store/app-data/selectors';
+import { getCurrentPlace, getNearestPlaces } from '../../store/app-data/selectors';
 import BookmarkBtn from '../../components/bookmark-btn/bookmark-btn';
+import Map from '../../components/map/map';
+import { getMapPoints } from '../../utils/helpers';
+import { Offer, Points } from '../../types/mainTypes';
 
 
 export default function Property(): JSX.Element {
@@ -17,24 +20,33 @@ export default function Property(): JSX.Element {
   const params = useParams();
   const id = Number(params.id) ?? 0;
 
-  const currentPlace = useAppSelector(getCurrentPlace);
-  const nearestPlaces = useAppSelector(getNearestPlaces);
-  const reviews = useAppSelector(getReviews);
+  const currentPlace = useAppSelector(getCurrentPlace) as Offer;
+  const nearestPlaces = useAppSelector(getNearestPlaces) as Offer[];
+
+  const placesList = nearestPlaces && currentPlace && [...nearestPlaces, currentPlace] as Offer[];
+  const points: Points = placesList && getMapPoints(placesList);
 
   useEffect(() => {
-    dispatch(setPlaceId(id));
-    window.scrollTo(0, 0);
+    let isMounted = true;
 
-    dispatch(fetchOffer());
-    dispatch(fetchNearestPlaces());
-    dispatch(fetchReviews());
+    if (isMounted) {
+      dispatch(setPlaceId(id));
+      window.scrollTo(0, 0);
+
+      dispatch(fetchOffer());
+      dispatch(fetchNearestPlaces());
+    }
+
+    return () => {
+      isMounted = false;
+    };
   }, [id]);
 
   if (!currentPlace) {
     return <Loader />;
   }
-  const {images, bedrooms, description, goods, host:{isPro, avatarUrl, name}, isPremium, maxAdults, price, rating, title, type} = currentPlace;
-  const imagesToRender = images.slice(0, 5);
+  const {images, bedrooms, description, goods, host:{isPro, avatarUrl, name}, isPremium, maxAdults, price, rating, title, type, city} = currentPlace;
+  const imagesToRender = images.slice(0, 6);
 
   return (
     <React.Fragment>
@@ -120,10 +132,12 @@ export default function Property(): JSX.Element {
                     </p>
                   </div>
                 </div>
-                {reviews ? <Reviews reviews={reviews}/> : <p>No reviews yet</p>}
+                <Reviews/>
               </div>
             </div>
-            <section className="property__map map"></section>
+            <section className="property__map map">
+              <Map city={city} points={points} selectedPoint={currentPlace}/>
+            </section>
           </section>
           <div className="container">
             <section className="near-places places">

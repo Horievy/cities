@@ -5,10 +5,10 @@ import PlaceListItem from '../place-list-item/place-list-item';
 interface PlaceLisProps {
   placesList: Offer[],
   classPrefix: string
-  getSelectedOffer?: SearchFunc
+  onPlaceItemHover?: SearchFunc
 }
 
-function PlaceList({classPrefix, placesList, getSelectedOffer}: PlaceLisProps) {
+function PlaceList({classPrefix, placesList, onPlaceItemHover}: PlaceLisProps) {
   return (
     <div className={`${classPrefix}__places-list places__list`}>
       {
@@ -16,7 +16,7 @@ function PlaceList({classPrefix, placesList, getSelectedOffer}: PlaceLisProps) {
           <PlaceListItem key={place.id}
             place={place}
             classPrefix={classPrefix}
-            getSelectedOffer={getSelectedOffer}
+            onPlaceItemHover={onPlaceItemHover}
           />))
       }
     </div>

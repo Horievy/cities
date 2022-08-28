@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { APIRoute, AuthorizationStatus } from '../../const';
+import {AppRoute, AuthorizationStatus } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { toggleFavorite } from '../../store/api-actions';
 import { getFavoritePlacesList } from '../../store/app-data/selectors';
@@ -17,9 +17,9 @@ function BookmarkBtn({classPrefix, placeId}: {classPrefix: string, placeId: numb
   const isFavorite = !!favoriteList.find((item) => item.id === placeId) || false;
 
 
-  function handleClick() {
+  function handleBtnClick() {
     if (!isAuthorized) {
-      navigate(APIRoute.Login);
+      navigate(AppRoute.Login);
     }
 
     const status = String(Number(!isFavorite));
@@ -28,7 +28,7 @@ function BookmarkBtn({classPrefix, placeId}: {classPrefix: string, placeId: numb
   }
 
   return (
-    <button onClick={handleClick} className={`${isFavorite && isAuthorized ? `${classPrefix}__bookmark-button--active` : ''} button ${classPrefix}__bookmark-button`} type='button'>
+    <button onClick={handleBtnClick} className={`${isFavorite && isAuthorized ? `${classPrefix}__bookmark-button--active` : ''} button ${classPrefix}__bookmark-button`} type='button'>
       <svg className={`${classPrefix}__bookmark-icon`} width='100%' height='100%'>
         <use xlinkHref='#icon-bookmark'></use>
       </svg>
