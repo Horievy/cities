@@ -73,7 +73,7 @@ export const addReview = createAsyncThunk<Review[], ReviewData, {
   async ({rating, comment}, {dispatch, getState, extra: api}) => {
     const id = getState()[NameSpace.Data].currentPlaceId;
 
-    const {data} = await api.post<Review[]>(`${APIRoute.Reviews}/asd${id}`, {rating, comment});
+    const {data} = await api.post<Review[]>(`${APIRoute.Reviews}${id}`, {rating, comment});
     return data;
   },
 );
