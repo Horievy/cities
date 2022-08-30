@@ -6,7 +6,7 @@ interface ReviewItemProps {
 }
 export default function ReviewItem({review}: ReviewItemProps) {
   const {user:{name, avatarUrl}, rating, comment, date} = review;
-  const modifyedDate = new Date(date).toDateString();
+  const modifyedDate = new Date(date).toLocaleString('default',{ year: 'numeric', month: 'long'});
 
   return (
     <li className="reviews__item">

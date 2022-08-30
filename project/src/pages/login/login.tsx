@@ -1,5 +1,5 @@
 
-import React, { FormEvent, useRef, useState } from 'react';
+import React, { FormEvent, useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Header from '../../components/header/header';
 import {AppRoute, AuthorizationStatus } from '../../const';
@@ -14,9 +14,17 @@ export default function Login(): JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  if (authorizationStatus === AuthorizationStatus.Auth) {
-    navigate(AppRoute.Main);
-  }
+  useEffect(() => {
+    let isMounted = true;
+
+    if (isMounted && authorizationStatus === AuthorizationStatus.Auth) {
+      navigate(AppRoute.Main);
+    }
+
+    return () => {
+      isMounted = false;
+    };
+  }, [authorizationStatus]);
 
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
