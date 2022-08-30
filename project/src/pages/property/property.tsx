@@ -21,7 +21,7 @@ export default function Property(): JSX.Element {
   const id = Number(params.id) ?? 0;
 
   const currentPlace = useAppSelector(getCurrentPlace) as Offer;
-  const nearestPlaces = useAppSelector(getNearestPlaces) as Offer[];
+  const nearestPlaces = useAppSelector(getNearestPlaces)?.slice(0, 3) as Offer[];
 
   const placesList = nearestPlaces && currentPlace && [...nearestPlaces, currentPlace] as Offer[];
   const points: Points = placesList && getMapPoints(placesList);
