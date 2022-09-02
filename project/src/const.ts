@@ -94,3 +94,8 @@ export enum NameSpace {
 export const TIMEOUT_SHOW_ERROR = 2000;
 
 export const MAX_RATING = 5;
+
+export enum CommentLength {
+  Min = 50,
+  Max = 300
+}

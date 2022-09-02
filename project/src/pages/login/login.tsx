@@ -40,7 +40,7 @@ export default function Login(): JSX.Element {
   };
 
   function isValidPass(pas: string): RegExpMatchArray | null {
-    return pas.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{4,}$/);
+    return pas.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{2,}$/);
   }
 
   const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
@@ -88,7 +88,7 @@ export default function Login(): JSX.Element {
                     required
                   />
                 </div>
-                {!valid && <p style={{color: 'red', fontSize: '0.85em',margin: '0 0 10px'}}>Password should be minimum 4 characters length, contains at least one character and one number.</p>}
+                {!valid && <p style={{color: 'red', fontSize: '0.85em',margin: '0 0 10px'}}>Password should be minimum 2 characters length, contains at least one character and one number.</p>}
                 <button className="login__submit form__submit button" type="submit">Sign in</button>
               </form>
             </section>

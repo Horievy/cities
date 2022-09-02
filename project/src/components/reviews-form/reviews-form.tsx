@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { CommentLength } from '../../const';
 import { useAppDispatch } from '../../hooks/reduxHooks';
 import { addReview } from '../../store/api-actions';
 import { ReviewData } from '../../types/mainTypes';
@@ -50,7 +51,7 @@ export default function ReviewsForm() {
   }
 
   function isReadyForSubmit({rating, comment}: ReviewData): void {
-    rating > 0 && comment.length >= 50 && comment.length < 300
+    rating > INITIAL_FORM_DATA.rating && comment.length >= CommentLength.Min && comment.length < CommentLength.Max
       ? setDisabled(false)
       : setDisabled(true);
   }

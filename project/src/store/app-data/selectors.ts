@@ -6,8 +6,6 @@ export const getPlacesList = (state: State): Offer[] => state[NameSpace.Data].pl
 
 export const getCurrentPlace = (state: State): Offer | undefined => state[NameSpace.Data].currentPlace;
 
-export const getCurrentPlaceId = (state: State): number => state[NameSpace.Data].currentPlaceId;
-
 export const getNearestPlaces = (state: State): Offer[] | undefined => state[NameSpace.Data].nearestPlaces;
 
 export const getFavoritePlacesList = (state: State): Offer[] => state[NameSpace.Data].favoritePlaces;
